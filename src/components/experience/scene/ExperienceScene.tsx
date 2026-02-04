@@ -22,7 +22,7 @@ export function ExperienceScene({
         progress={progress}
         reducedMotion={reducedMotion}
       />
-      <Tunnel />
+      <Tunnel progress={progress} />
       <StationMarkers />
     </>
   );

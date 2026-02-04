@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { clamp } from "@/lib/utils/clamp";
 import {
@@ -14,15 +15,19 @@ type CameraRigProps = {
 
 export function CameraRig({ progress, reducedMotion }: CameraRigProps) {
   const { camera } = useThree();
+  const prevProgressRef = useRef(progress);
 
   useFrame(() => {
     const t = clamp(progress, 0, 1);
+    const prev = prevProgressRef.current;
+    const direction = t - prev;
+    prevProgressRef.current = t;
     const targetZ = CAMERA_START_Z - t * (CAMERA_START_Z - CAMERA_END_Z);
     const offset = reducedMotion ? { x: 0, y: 0 } : tunnelOffsetForZ(targetZ);
 
     const lerp = (from: number, to: number, alpha: number) =>
       from + (to - from) * alpha;
-    const alpha = reducedMotion ? 1 : 0.025;
+    const alpha = reducedMotion ? 1 : direction < 0 ? 0.14 : 0.025;
 
     camera.position.z = lerp(camera.position.z, targetZ, alpha);
     camera.position.x = lerp(camera.position.x, offset.x, alpha);
