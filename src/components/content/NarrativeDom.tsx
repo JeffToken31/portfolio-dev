@@ -13,10 +13,10 @@ import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
 
 export function NarrativeDom() {
   const [entry, hero, identity, method, projects, relation, contact] = STATES;
-  const { activeStateId, stateProgress, isTransitioning } = useNarrativeState();
+  const { activeStateId, stateProgress, isArrived } = useNarrativeState();
 
   const isVisible = (id: string) =>
-    !isTransitioning && activeStateId === id;
+    isArrived && activeStateId === id;
 
   const progressFor = (id: string) =>
     activeStateId === id ? stateProgress : undefined;

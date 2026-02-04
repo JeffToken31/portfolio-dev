@@ -1,13 +1,20 @@
 "use client";
 
-import { STATE_COUNT, STATE_IDS, type NarrativeState } from "@/content/narrative";
+import {
+  STATE_COUNT,
+  STATE_IDS,
+  UNIFORM_TARGETS,
+  type NarrativeState,
+} from "@/content/narrative";
 import { useScrollProgress } from "@/components/orchestrator/useScrollProgress";
 import { clamp } from "@/lib/utils/clamp";
+import { useCameraProgress } from "@/components/orchestrator/cameraProgressStore";
 
 const fallbackStateId: NarrativeState["id"] = "hero";
 
 export function useNarrativeState() {
   const { progress, isTransitioning, currentIndex } = useScrollProgress();
+  const cameraProgress = useCameraProgress();
   const cinematicProgress = progress;
 
   const activeStateId = STATE_IDS[currentIndex] ?? fallbackStateId;
@@ -21,9 +28,13 @@ export function useNarrativeState() {
       : 0;
   const normalized = clamp(local, 0, 1);
 
+  const target = UNIFORM_TARGETS[currentIndex] ?? 0;
+  const isArrived = Math.abs(cameraProgress - target) < 0.0012;
+
   return {
     cinematicProgress,
     isTransitioning,
+    isArrived,
     activeStateId,
     stateProgress: normalized,
   };
