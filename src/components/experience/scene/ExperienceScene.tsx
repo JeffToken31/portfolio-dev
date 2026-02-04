@@ -16,7 +16,7 @@ export function ExperienceScene({
   return (
     <>
       <color attach="background" args={[TUNNEL_PALETTE.background]} />
-      {/* fog disabled (jitter) */}
+      <fog attach="fog" args={[TUNNEL_PALETTE.fog, 8, 185]} />
       <Lights />
       <CameraRig
         progress={progress}
