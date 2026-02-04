@@ -17,6 +17,7 @@ Il décrit **le travail réel à produire**, sprint par sprint.
 - Aucun sprint ne dépend d’un suivant pour être “correct”.
 - Le contenu est implémenté **avant** les effets.
 - Immersion V1.1 : **tunnel + caméra**, décor minimal et stable.
+- Scroll guidé : **un geste = une station**, blocage pendant la transition.
 - Le DOM reste **dans le flux scroll**, centré visuellement dans le tunnel si besoin.
 
 ---
@@ -103,11 +104,11 @@ Connecter le scroll à une **progression logique**.
 ### Actions concrètes
 - Implémenter `useScrollProgress`
 - Normaliser `progress` (0..1)
-- Définir les ranges d’états narratifs
+- Définir des **targets uniformes** par état
 - Exposer :
   - `activeState`
   - `stateProgress`
-  - `transitionProgress`
+  - `isArrived`
 - Synchroniser le DOM (mise en avant de l’état actif)
 
 ### Contenu attendu
@@ -115,11 +116,12 @@ Connecter le scroll à une **progression logique**.
   - Hero → Identity → Method → Projects → Relation → Contact
 
 ### Livrable
-- Scroll = avancement narratif
+- Scroll = avancement narratif **par paliers**
 - Aucun canvas encore
 
 ### Sortie de sprint
 - Les états sont **perceptibles sans animation**
+- Le scroll ne saute jamais une station
 
 ---
 
@@ -161,6 +163,7 @@ Donner du **rythme et du sens**.
 - Transitions DOM + canvas synchronisées
 - Marquage d’état par **lumière/fog** (léger)
 - DOM : apparition par approche **seule** (pas d’animation canvas liée au texte)
+- Déclenchement visuel aligné à l’arrivée réelle (caméra)
 
 ### Règles
 - Pas d’effet démonstratif

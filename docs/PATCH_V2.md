@@ -9,8 +9,8 @@
 ## 1. Principe fondamental
 
 - La **caméra reste centrée** et progresse en profondeur.
-- Le **tunnel avance, monte légèrement et se décale vers la gauche**.
-- L’utilisateur ne “contrôle pas tout” : le scroll devient un **déclencheur cinématique**, pas un simple défilement.
+- Le **tunnel est stable et rectiligne** (courbe éventuelle reportée après stabilisation).
+- Le scroll devient un **déclencheur cinématique** : un geste = une station.
 - Le parcours reste **linéaire, lisible et guidé**.
 
 Objectif :
@@ -23,9 +23,7 @@ Objectif :
 
 ### Tunnel
 - Composé d’**anneaux successifs** (segments).
-- Courbure :
-  - Légère montée progressive
-  - Décalage latéral subtil (gauche)
+- Trajectoire **droite et stable** (axe Z) pour éviter la saccade perçue.
 - Aucune décoration superflue :
   - Pas d’objets flottants
   - Pas d’éléments concurrents
@@ -88,17 +86,12 @@ Le canvas **ne porte jamais le sens principal**.
 ## 6. Scroll & rythme (cinématique contrôlée)
 
 ### Scroll behavior
-- Le scroll déclenche la progression.
-- La vitesse réelle est **lissée et amortie**.
-- Zones de stations :
-  - ralentissement perceptible
-  - micro-pause implicite
-  - reprise fluide
+- Le scroll **déclenche** la progression (palier).
+- Un geste = **une station** (avant / arrière).
+- **Entrées bloquées** pendant la transition, réactivation à l’arrivée.
+- Vitesse lissée et amortie (glide).
 
-⚠️ Pas de scroll-jacking brutal :
-- l’utilisateur peut toujours sortir
-- aucun blocage sec
-- aucun piège UX
+> Le comportement est **guidé** : l’utilisateur ne “file” pas au-delà de la station suivante.
 
 ---
 
