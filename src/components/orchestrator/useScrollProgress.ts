@@ -10,35 +10,44 @@ export function useScrollProgress() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const targetRef = useRef(0);
   const rafRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number | null>(null);
   const lockRef = useRef(false);
+  const wheelArmedRef = useRef(true);
+  const lastWheelAtRef = useRef(0);
+  const transitionRef = useRef({
+    from: 0,
+    to: 0,
+    start: 0,
+    duration: 700,
+  });
   const indexRef = useRef(0);
   const targets = UNIFORM_TARGETS;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
     const tick = () => {
       const now = performance.now();
-      const last = lastTimeRef.current ?? now;
-      const dt = Math.max(0.001, (now - last) / 1000);
-      lastTimeRef.current = now;
-
-      setProgress((current) => {
-        const target = targetRef.current;
-        const maxSpeed = 0.035;
-        const maxDelta = maxSpeed * dt;
-        const delta = clamp(target - current, -maxDelta, maxDelta);
-        const next = current + delta;
-
-        if (lockRef.current && Math.abs(target - next) < 0.0012) {
+      if (lockRef.current) {
+        const { from, to, start, duration } = transitionRef.current;
+        const t = clamp((now - start) / duration, 0, 1);
+        const eased = easeInOutCubic(t);
+        const next = from + (to - from) * eased;
+        setProgress(next);
+        if (t >= 1) {
           lockRef.current = false;
           setIsTransitioning(false);
-          return target;
+          setProgress(to);
+          wheelArmedRef.current = false;
         }
-
-        return Math.abs(next - current) < 0.0003 ? target : next;
-      });
+      } else {
+        if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
+          wheelArmedRef.current = true;
+        }
+        setProgress(targetRef.current);
+      }
       rafRef.current = requestAnimationFrame(tick);
     };
 
@@ -46,25 +55,36 @@ export function useScrollProgress() {
     setCurrentIndex(indexRef.current);
     rafRef.current = requestAnimationFrame(tick);
 
-    const triggerMove = (dir: number) => {
-      const nextIndex = clamp(indexRef.current + dir, 0, targets.length - 1);
+    const goToIndex = (nextIndex: number) => {
       if (nextIndex === indexRef.current) return;
       indexRef.current = nextIndex;
       setCurrentIndex(nextIndex);
-      targetRef.current = targets[nextIndex];
+      const nextTarget = targets[nextIndex] ?? 0;
+      transitionRef.current = {
+        from: targetRef.current,
+        to: nextTarget,
+        start: performance.now(),
+        duration: 700,
+      };
+      targetRef.current = nextTarget;
       lockRef.current = true;
       setIsTransitioning(true);
     };
 
+    const triggerMove = (dir: number) => {
+      const nextIndex = clamp(indexRef.current + dir, 0, targets.length - 1);
+      goToIndex(nextIndex);
+    };
+
     const onWheel = (event: WheelEvent) => {
-      if (lockRef.current) {
-        event.preventDefault();
-        return;
-      }
+      event.preventDefault();
+      lastWheelAtRef.current = performance.now();
+      if (lockRef.current) return;
+      if (!wheelArmedRef.current) return;
       if (Math.abs(event.deltaY) < 2) return;
       const dir = event.deltaY > 0 ? 1 : -1;
+      wheelArmedRef.current = false;
       triggerMove(dir);
-      event.preventDefault();
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -74,20 +94,12 @@ export function useScrollProgress() {
       }
       const key = event.key;
       if (key === "End") {
-        indexRef.current = targets.length - 1;
-        setCurrentIndex(indexRef.current);
-        targetRef.current = targets[indexRef.current];
-        lockRef.current = true;
-        setIsTransitioning(true);
+        goToIndex(targets.length - 1);
         event.preventDefault();
         return;
       }
       if (key === "Home") {
-        indexRef.current = 0;
-        setCurrentIndex(indexRef.current);
-        targetRef.current = targets[0];
-        lockRef.current = true;
-        setIsTransitioning(true);
+        goToIndex(0);
         event.preventDefault();
         return;
       }
