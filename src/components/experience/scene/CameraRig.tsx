@@ -32,7 +32,7 @@ export function CameraRig({ progress, reducedMotion }: CameraRigProps) {
     camera.position.z = lerp(camera.position.z, targetZ, alpha);
     camera.position.x = lerp(camera.position.x, offset.x, alpha);
     camera.position.y = lerp(camera.position.y, offset.y, alpha);
-    camera.lookAt(offset.x, offset.y, targetZ - 6);
+    camera.lookAt(offset.x, offset.y, camera.position.z - 6);
 
     const visual =
       (CAMERA_START_Z - camera.position.z) /
