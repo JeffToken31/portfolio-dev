@@ -16,6 +16,8 @@ Il décrit **le travail réel à produire**, sprint par sprint.
 - Chaque sprint produit quelque chose de **visible, testable, validable**.
 - Aucun sprint ne dépend d’un suivant pour être “correct”.
 - Le contenu est implémenté **avant** les effets.
+- Immersion V1.1 : **tunnel + caméra**, décor minimal et stable.
+- Le DOM reste **dans le flux scroll**, centré visuellement dans le tunnel si besoin.
 
 ---
 
@@ -121,24 +123,25 @@ Connecter le scroll à une **progression logique**.
 
 ---
 
-## Sprint 3 — Canvas minimal & spatialisation
+## Sprint 3 — Canvas minimal & tunnel (V1.1)
 
 ### Objectif
-Introduire la **profondeur**, pas les effets.
+Introduire la **profondeur** via un tunnel et une trajectoire caméra stable.
 
 ### Actions concrètes
 - Ajouter le canvas R3F
-- Caméra + lumière
+- Tunnel minimal (arceaux répétés ou cylindre)
+- Caméra sur trajectoire (spline légère)
 - Liaison caméra ↔ `progress`
-- Axe Z principal
 
 ### Règles
 - Aucun asset lourd
 - Aucun texte critique
 - Performance prioritaire
+- Décor minimal et stable
 
 ### Livrable
-- Sensation d’avancer dans l’espace
+- Sensation d’avancer dans un tunnel continu
 
 ### Sortie de sprint
 - Expérience immersive perceptible
@@ -146,7 +149,7 @@ Introduire la **profondeur**, pas les effets.
 
 ---
 
-## Sprint 4 — Transitions & seuils narratifs
+## Sprint 4 — Transitions & seuils narratifs (V1.1)
 
 ### Objectif
 Donner du **rythme et du sens**.
@@ -156,6 +159,8 @@ Donner du **rythme et du sens**.
 - Apparitions par approche
 - Un point focal à la fois
 - Transitions DOM + canvas synchronisées
+- Marquage d’état par **lumière/fog** (léger)
+- DOM : apparition par approche **seule** (pas d’animation canvas liée au texte)
 
 ### Règles
 - Pas d’effet démonstratif

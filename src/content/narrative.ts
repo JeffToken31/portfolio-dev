@@ -29,6 +29,7 @@ export type NarrativeState = {
   cta?: { label: string; href: string }[];
 };
 
+
 export const STATES: NarrativeState[] = [
   {
     id: "entry",
@@ -66,44 +67,19 @@ export const STATES: NarrativeState[] = [
       {
         title: "Comprendre avant d’implémenter",
         body: [
-          "Je prends le temps de comprendre le problème, ses contraintes et ses usages",
-          "avant d’écrire la moindre ligne de code.",
-          "Un projet mal compris produit toujours une complexité inutile.",
+          "Je prends le temps de comprendre le problème, ses contraintes et ses usages.",
         ],
       },
       {
         title: "Découper pour garder le contrôle",
         body: [
-          "Je découpe les sujets en unités simples et indépendantes :",
-          "contenu, logique, orchestration, rendu.",
-          "Ce découpage me permet d’avancer progressivement",
-          "sans perdre la vision d’ensemble.",
-        ],
-      },
-      {
-        title: "Privilégier la lisibilité à l’illusion de maîtrise",
-        body: [
-          "Je cherche des solutions lisibles, compréhensibles et explicables,",
-          "même si elles sont moins “impressionnantes”.",
-          "Un code clair vieillit mieux qu’un code spectaculaire.",
+          "Je découpe les sujets en unités simples et indépendantes pour avancer sans perdre la vision d’ensemble.",
         ],
       },
       {
         title: "Tester les idées avant de les embellir",
         body: [
-          "Je valide d’abord le sens, la logique et l’utilité",
-          "avant d’ajouter de la complexité visuelle ou technique.",
-          "L’esthétique et l’optimisation viennent après la stabilité.",
-        ],
-      },
-      {
-        title: "Intégrer performance et accessibilité dès que le cadre est posé",
-        body: [
-          "Sur mes projets récents, j’intègre volontairement la performance",
-          "et l’accessibilité comme des contraintes de conception,",
-          "pas comme des corrections de fin de projet.",
-          "Je considère ces sujets comme des critères de qualité,",
-          "pas comme des options.",
+          "Je valide d’abord le sens, la logique et l’utilité avant d’ajouter de la complexité visuelle ou technique.",
         ],
       },
     ],
@@ -116,19 +92,22 @@ export const STATES: NarrativeState[] = [
         name: "ATS / Recrutement",
         context:
           "Gestion offres / candidatures, pages candidat/RH/admin.",
-        work: "Structuration, routing, API REST, auth (JWT), docs Swagger, DB.",
+        work: "Structuration, routing, API REST, auth (JWT), docs Swagger, DB, RGPD.",
         method: "Découpage en couches, contrats, itérations.",
         cta: [
-          { label: "Voir le projet", href: "#" },
+          {
+            label: "Voir le projet",
+            href: "https://landing-ats-recrutement.vercel.app/",
+          },
           { label: "Lire la démarche", href: "#" },
         ],
       },
       {
-        name: "Site associatif / CMS",
+        name: "Zafira solidaire Site vitrine associatif / CMS",
         context: "Contenu, blog/articles, partenaires, mise en prod.",
         work: "Intégration, structure contenu, perf, accessibilité.",
         method: "Priorité à la lisibilité et au concret.",
-        cta: [{ label: "Voir le site", href: "#" }],
+        cta: [{ label: "Voir le site", href: "https://www.zafirasolidaire.org/" }],
       },
     ],
   },
@@ -145,8 +124,17 @@ export const STATES: NarrativeState[] = [
     title: "Contact",
     body: ["Je réponds simplement."],
     cta: [
-      { label: "Email", href: "mailto:" },
-      { label: "LinkedIn", href: "#" },
+      { label: "Email", href: "mailto:jeffrey-31@hotmail.fr" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/jeffrey-basset/" },
+      { label: "GitHub", href: "https://github.com/JeffToken31" },
     ],
   },
 ];
+
+export const STATE_IDS = STATES.map((state) => state.id);
+
+export const STATE_COUNT = STATE_IDS.length;
+export const UNIFORM_TARGETS = STATE_IDS.map((_, index) => {
+  if (STATE_COUNT <= 1) return 0;
+  return index / (STATE_COUNT - 1);
+});

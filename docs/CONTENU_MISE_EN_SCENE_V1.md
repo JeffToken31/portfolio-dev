@@ -31,10 +31,13 @@
 - `px-6` (mobile) → `px-10` (desktop)
 - grands espacements : `py-24` / `py-32` selon états
 
-### 1.4 Mouvement V1 (contrat)
-- “Apparition par approche” = **petite translation + légère opacité** (pas juste fade)
-- Durées courtes, easing sobre
-- `prefers-reduced-motion` : réduire amplitude + neutraliser mouvements caméra
+### 1.4 Mouvement V1.1 (contrat — tunnel)
+- Le mouvement principal est porté par **la caméra** (trajectoire type tunnel/décollage).
+- “Apparition par approche” = **petite translation + légère opacité** (DOM uniquement, pas dans le canvas).
+- Aucun objet animé autour du texte (anti-saccade / anti‑“junior”).
+- `prefers-reduced-motion` : réduire amplitude + neutraliser mouvements caméra.
+- Le DOM reste **dans le flux scroll**, visuellement centré dans le tunnel si besoin.
+- Option future (à valider) : mode “contenu dans le tunnel” en **progressive enhancement**, avec fallback DOM-only intact.
 
 ---
 
@@ -77,7 +80,7 @@ Créer une **rupture**. Faire “entrer” sans parler de toi.
 - Aucun logo, aucune liste
 
 ### Canvas (option)
-- Espace lointain, très sombre, légère profondeur (fog discret)
+- Tunnel très sombre, lointain, fog discret (profondeur)
 
 ### À ne pas faire
 - Pas de slogan CV
@@ -104,8 +107,8 @@ Installer : **calme**, **maturité**, **méthode**. Donner un point focal unique
 - Pas de stack, pas de techno listée ici
 
 ### Canvas (option)
-- Légère avancée caméra, lumière focalisée (spot doux)
-- Rien de “wow” graphique, juste la sensation de profondeur
+- Légère avancée caméra, key light plus présente (spot doux)
+- Rien de “wow” graphique, juste la sensation de progression
 
 ### À ne pas faire
 - Pas d’ego (“exceptionnel”, “élite”)
@@ -134,7 +137,7 @@ Fragments courts (choisir 6–8, V1) :
 - Chaque fragment = **un point focal**
 
 ### Canvas (option)
-- L’espace gagne en structure (formes abstraites légères)
+- Le tunnel devient plus lisible (rythme stable des arceaux)
 - Profondeur plus “stable” (moins mystérieuse que la Hero)
 
 ### À ne pas faire
@@ -214,6 +217,12 @@ pas comme des options.
 
 ---
 
+### Canvas (option)
+- Lumière plus “stable” (sensation de maîtrise)
+- Fog légèrement réduit pour une lecture plus nette du tunnel
+
+---
+
 ### Règles de conception (rappel)
 
 - Aucun jargon inutile
@@ -250,7 +259,7 @@ Ancrer : tu as déjà livré, en prod. Montrer le **contexte** avant la vitrine.
 - Pas de carrousel en V1 (risque “cheap”)
 
 ### Canvas (option)
-- L’espace devient “plus concret” (contraste + lumière)
+- Contraste un peu plus “concret” (lumière + fog léger)
 - Toujours abstrait, pas d’assets lourds
 
 ### À ne pas faire
@@ -275,7 +284,7 @@ Projection humaine : rassurer sans vendre.
 - Ton calme, direct
 
 ### Canvas (option)
-- Espace plus ouvert, respiration
+- Tunnel légèrement plus ouvert, respiration
 
 ### À ne pas faire
 - Pas de “disponible immédiatement !!”

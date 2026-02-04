@@ -1,3 +1,5 @@
+"use client";
+
 import { STATES } from "@/content/narrative";
 import { StateContact } from "@/components/content/states/StateContact";
 import { StateEntry } from "@/components/content/states/StateEntry";
@@ -6,19 +8,57 @@ import { StateIdentity } from "@/components/content/states/StateIdentity";
 import { StateMethod } from "@/components/content/states/StateMethod";
 import { StateProjects } from "@/components/content/states/StateProjects";
 import { StateRelation } from "@/components/content/states/StateRelation";
+import { StateThreshold } from "@/components/content/states/StateThreshold";
+import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
 
 export function NarrativeDom() {
   const [entry, hero, identity, method, projects, relation, contact] = STATES;
+  const { activeStateId, stateProgress, isTransitioning } = useNarrativeState();
+
+  const isVisible = (id: string) =>
+    !isTransitioning && activeStateId === id;
+
+  const progressFor = (id: string) =>
+    activeStateId === id ? stateProgress : undefined;
 
   return (
     <div className="relative z-10">
-      <StateEntry state={entry} />
-      <StateHero state={hero} />
-      <StateIdentity state={identity} />
-      <StateMethod state={method} />
-      <StateProjects state={projects} />
-      <StateRelation state={relation} />
-      <StateContact state={contact} />
+      <StateEntry
+        state={entry}
+        isVisible={isVisible("entry")}
+        progress={progressFor("entry")}
+      />
+      <StateHero
+        state={hero}
+        isVisible={isVisible("hero")}
+        progress={progressFor("hero")}
+      />
+      <StateIdentity
+        state={identity}
+        isVisible={isVisible("identity")}
+        progress={progressFor("identity")}
+      />
+      {method.subtitle ? <StateThreshold text={method.subtitle} /> : null}
+      <StateMethod
+        state={method}
+        isVisible={isVisible("method")}
+        progress={progressFor("method")}
+      />
+      <StateProjects
+        state={projects}
+        isVisible={isVisible("projects")}
+        progress={progressFor("projects")}
+      />
+      <StateRelation
+        state={relation}
+        isVisible={isVisible("relation")}
+        progress={progressFor("relation")}
+      />
+      <StateContact
+        state={contact}
+        isVisible={isVisible("contact")}
+        progress={progressFor("contact")}
+      />
     </div>
   );
 }

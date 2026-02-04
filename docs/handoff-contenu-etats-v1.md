@@ -10,6 +10,7 @@
 - Portfolio **one-page immersive** sur un **canvas unique**.
 - Progression **en profondeur (axe Z)** : l’utilisateur n’a pas la sensation de “descendre une page”, il **avance**.
 - Le scroll pilote une **progression continue** `progress ∈ [0..1]`.
+- Immersion V1.1 : **tunnel + caméra** (trajet doux), décor minimal et stable.
 - Parcours en **états narratifs** (pas des sections classiques) :
   - État 0 : Seuil d’entrée
   - État 1 : Hero / Posture
@@ -20,6 +21,7 @@
   - État 6 : Contact
 - **Seuil narratif** = moment court (phrase / citation) quand l’intention change, sans blocage, sans effet gratuit.
 - **Un seul point focal à la fois**.
+ - Le DOM reste **dans le flux scroll**, visuellement centré dans le tunnel si besoin.
 
 ### Direction artistique actée (DA)
 - Ambiance **sombre nuancée**, lumière contrôlée, profondeur par contraste / mise au point.
@@ -184,15 +186,17 @@ Pour chaque projet (2 à 4) :
 ---
 
 ### PROMPT — NOUVEAU CHAT (À COLLER)
-Je travaille sur un portfolio développeur immersif (Next.js) avec une progression narrative “en profondeur” (axe Z) dans un canvas unique.
+Je travaille sur un portfolio développeur immersif (Next.js) avec une progression narrative “en profondeur” (axe Z) dans un canvas unique, version **tunnel / caméra**.
 
 Contexte figé (à respecter) :
 - UX : parcours en états narratifs, pas des sections classiques.
 - États : (0) Seuil, (1) Hero/Posture, (2) Identité en fragments, (3) Manière de construire, (4) Preuves concrètes/projets, (5) Relation & collaboration, (6) Contact.
 - Scroll pilote `progress ∈ [0..1]` ; un seul point focal à la fois.
+- Immersion V1.1 : **tunnel + caméra** (trajet doux), décor minimal et stable.
 - Seuil narratif = phrase très courte (6–12 mots) quand l’intention change, sans blocage.
 - DA : sombre nuancé, lumière contrôlée, profondeur par contraste/mise au point, sobriété stricte, lisibilité prioritaire.
 - Tech : Next.js App Router + TS + Tailwind + Three/R3F (+ drei). Le sens est dans le DOM (SEO/a11y), le canvas sert l’ambiance. `prefers-reduced-motion` + fallback DOM-only obligatoires.
+- Le DOM reste **dans le flux scroll** ; on peut le centrer visuellement dans le tunnel sans le sortir du DOM.
 - On est à l’étape “contenu” : écrire les phrases/citations/fragments par état, très peu de texte, mais très compréhensible. Zéro marketing, ton calme et pro.
 
 Ta tâche :

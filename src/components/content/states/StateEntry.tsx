@@ -1,15 +1,24 @@
 import type { NarrativeState } from "@/content/narrative";
+import { NarrativeCardFrame } from "@/components/content/NarrativeCardFrame";
 
-export function StateEntry({ state }: { state: NarrativeState }) {
+type StateEntryProps = {
+  state: NarrativeState;
+  isVisible?: boolean;
+  progress?: number;
+};
+
+export function StateEntry({
+  state,
+  isVisible = false,
+  progress,
+}: StateEntryProps) {
   return (
-    <section className="flex min-h-screen items-end">
-      <div className="mx-auto w-full max-w-6xl px-6 pb-12 md:px-10">
-        <div className="space-y-2 text-sm text-neutral-300">
-          {state.body?.map((line) => (
-            <p key={line}>{line}</p>
-          ))}
-        </div>
+    <NarrativeCardFrame isVisible={isVisible} progress={progress}>
+      <div className="space-y-2 text-sm text-neutral-300">
+        {state.body?.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
       </div>
-    </section>
+    </NarrativeCardFrame>
   );
 }
