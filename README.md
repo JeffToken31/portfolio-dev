@@ -895,7 +895,7 @@ Tous les passages ne nécessitent pas un seuil.
 
 - Le seuil se situe sur l’**axe de profondeur (axe Z)**
 - Il correspond à une **zone de transition**, pas à un point fixe
-- L’axe de progression peut être **légèrement courbé** à cet endroit
+- L’axe de progression reste **rectiligne** (axe Z) pour la V1
 
 L’utilisateur perçoit une **variation subtile du chemin**, pas une rupture.
 
@@ -921,7 +921,7 @@ Le contenu doit rester court : il sert de **signal** (porte), pas de message pri
 **Règles de conception**
 
 - Aucun effet spectaculaire
-- Aucun blocage du scroll
+- Scroll guidé par paliers (blocage pendant la transition)
 - Aucun contenu long
 - Aucun élément décoratif gratuit
 
@@ -1634,7 +1634,7 @@ L’utilisateur doit ressentir :
 - Progression continue (pas une suite de sections)
 - Transitions fluides et contrôlées par le scroll
 - Un seul point focal à la fois
-- Seuils narratifs = “portes” de sens (courts, non bloquants)
+- Seuils narratifs = “portes” de sens (courts, guidés)
 
 **Objectifs techniques**
 
@@ -1695,13 +1695,12 @@ Le contenu important doit exister en DOM sémantique et indexable, même si l’
 **Progression globale**
 
 - Une variable continue `progress` ∈ [0..1] représente l’avancement dans l’expérience.
-- `progress` est pilotée par le scroll (avec inertie/lerp), pas par un simple “scrollY”.
+- `progress` est pilotée par un **scroll guidé** (un geste = une station), pas par un simple “scrollY”.
 
-**États narratifs (ranges)**
+**États narratifs (targets)**
 
-- Chaque état narratif correspond à une **plage** de `progress`.
-  - ex : état1 = [0.10..0.22], état2 = [0.22..0.35], etc.
-- Les transitions sont les zones de chevauchement / interpolation entre ces plages.
+- Chaque état narratif correspond à un **target uniforme** de `progress`.
+- Les transitions sont des glides temporels entre targets.
 
 **Orchestration**
 
@@ -1713,7 +1712,7 @@ Le contenu important doit exister en DOM sémantique et indexable, même si l’
 **Rendu**
 
 - Le canvas (R3F) consomme `progress` pour :
-  - position caméra sur trajectoire (Z + courbure légère)
+- position caméra sur trajectoire (Z rectiligne)
   - mise au point / profondeur perçue
   - apparition par approche des éléments
 - La couche contenu consomme `activeState` pour :
@@ -1727,7 +1726,7 @@ Le contenu important doit exister en DOM sémantique et indexable, même si l’
 **Contrat**
 
 - Le scroll ne “déplace pas une page” : il modifie une **vitesse d’avancement**.
-- L’avancement est lissé (inertie) pour éviter les micro-saccades.
+- L’avancement est un glide temporel entre stations (ease).
 - Le système doit fonctionner :
   - à la molette
   - au trackpad
@@ -1735,9 +1734,8 @@ Le contenu important doit exister en DOM sémantique et indexable, même si l’
 
 **Règles**
 
-- Aucun blocage du scroll
-- Aucune animation imposée sans contrôle utilisateur
-- Possibilité de “revenir en arrière” naturellement
+- Blocage des inputs pendant la transition
+- Possibilité de “revenir en arrière” naturellement (palier précédent)
 
 ---
 
@@ -1820,14 +1818,13 @@ Voir 10.12 — Déploiement & monitoring pour la stratégie complète.
 #### 10.8.5 Orchestration scroll → progress
 
 - **Choix V1 : orchestration maison (simple et documentée)**
-  - `scroll` → `targetProgress`
-  - lissage via interpolation (inertie)
+  - un geste `scroll` → target suivant/précédent
+  - glide temporel (ease) vers `progress`
   - exposer `progress` ∈ [0..1] au moteur d’états + rendu R3F
 - **Optionnel (si besoin UX) : Lenis**
   - Uniquement si le scroll natif rend l’inertie trop “cassée” selon devices
   - Attention : tester accessibilité + mobile + performance
-- **⚠️ Règle : aucun “scroll-jacking” bloquant**
-  - On contrôle la progression, pas la page au point d’empêcher l’utilisateur.
+- Scroll guidé : blocage court pendant la transition, puis réactivation à l’arrivée.
 
 ---
 
@@ -2000,7 +1997,7 @@ C’est la couche qui :
 
 - Tout le texte important est ici
 - Aucun texte critique dans le canvas
-- Animation = progressive, jamais bloquante
+- Animations DOM légères, progression guidée par paliers
 
 ---
 
