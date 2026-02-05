@@ -4,6 +4,8 @@ export const TUNNEL_PALETTE = {
   ring: "#13273f",
   ringAlt: "#2a2f38",
   stationPlate: "#101827",
+  iconAccent: "#2a6cff",
+  iconEmissive: "#4f8dff",
   keyLight: "#cfd7ff",
   fillLight: "#9fbef0",
 };
