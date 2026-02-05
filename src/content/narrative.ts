@@ -35,6 +35,7 @@ export const STATES: NarrativeState[] = [
     id: "entry",
     body: ["Scroller pour entrer", "Une expérience guidée."],
   },
+
   {
     id: "hero",
     title:
@@ -43,93 +44,110 @@ export const STATES: NarrativeState[] = [
       "Junior en expérience, exigeant sur la clarté, la performance et l’accessibilité.",
     body: ["Scroll = progression."],
   },
+
   {
     id: "identity",
     fragments: [
-      "Reconversion terminée. RNCP en cours.",
-      "Ex-vendeur / conseil technique — peinture bâtiment & revêtements.",
-      "Habitué aux contraintes réelles : clients, délais, litiges, qualité.",
+      "Reconversion vers le développement logiciel.",
+      "Ancien conseil technique en BTP, habitué aux contraintes du terrain.",
+      "Décisions prises face à des clients, des délais et des problèmes réels.",
       "Je m’efforce de finir ce que je commence.",
-      "J’anticipe : risques, dépendances, étapes.",
-      "Je préfère les systèmes clairs aux solutions brillantes.",
-      "L’IA : un copilote pour accélérer l’apprentissage, pas un alibi.",
+      "J’anticipe pour éviter la complexité inutile.",
+      "Je privilégie les structures claires aux solutions brillantes.",
+      "L’IA est un outil d’apprentissage, pas un substitut de réflexion.",
     ],
   },
+
   {
     id: "method",
     title: "Manière de construire",
-    subtitle: "La crédibilité, c’est une méthode visible.",
-    body: [
-      "Je ne pars jamais du code.",
-      "Je pars d’un cadre clair, puis je fais évoluer la solution à l’intérieur de ce cadre.",
-    ],
+    subtitle: "Ce qui est clair tient mieux dans le temps.",
     principles: [
       {
         title: "Comprendre avant d’implémenter",
         body: [
-          "Je prends le temps de comprendre le problème, ses contraintes et ses usages.",
+          "Je prends le temps de comprendre le problème, son contexte et ses contraintes avant d’écrire du code.",
         ],
       },
       {
-        title: "Découper pour garder le contrôle",
+        title: "Structurer pour garder le contrôle",
         body: [
-          "Je découpe les sujets en unités simples et indépendantes pour avancer sans perdre la vision d’ensemble.",
+          "Une base claire permet de faire évoluer une solution, de la tester sereinement et de la maintenir dans le temps.",
         ],
       },
       {
-        title: "Tester les idées avant de les embellir",
+        title: "Valider avant d’embellir",
         body: [
-          "Je valide d’abord le sens, la logique et l’utilité avant d’ajouter de la complexité visuelle ou technique.",
+          "Je vérifie d’abord le sens et l’utilité avant d’ajouter de la complexité visuelle ou technique.",
         ],
       },
     ],
   },
+
   {
     id: "projects",
-    title: "Projets (preuve)",
+    title: "Projets",
     projects: [
       {
         name: "ATS / Recrutement",
         context:
-          "Gestion offres / candidatures, pages candidat/RH/admin.",
-        work: "Structuration, routing, API REST, auth (JWT), docs Swagger, DB, RGPD.",
-        method: "Découpage en couches, contrats, itérations.",
+          "Gestion d’offres et de candidatures avec espaces candidat, RH et administration.",
+        work:
+          "Architecture API, authentification, gestion des données, documentation, prise en compte du cadre RGPD.",
+        method:
+          "Découpage en couches, contrats clairs, itérations progressives.",
         cta: [
           {
             label: "Voir le projet",
-            href: "https://landing-ats-recrutement.vercel.app/",
+            href: "https://landing-ats-recrutement.vercel.app",
           },
-          { label: "Lire la démarche", href: "#" },
         ],
       },
       {
-        name: "Zafira solidaire Site vitrine associatif / CMS",
-        context: "Contenu, blog/articles, partenaires, mise en prod.",
-        work: "Intégration, structure contenu, perf, accessibilité.",
-        method: "Priorité à la lisibilité et au concret.",
-        cta: [{ label: "Voir le site", href: "https://www.zafirasolidaire.org/" }],
+        name: "Zafira Solidaire — Site associatif",
+        context:
+          "Site vitrine avec gestion de contenu, articles et partenaires.",
+        work:
+          "Intégration, structuration du contenu, performance et accessibilité.",
+        method:
+          "Priorité à la lisibilité et à la simplicité d’usage.",
+        cta: [
+          {
+            label: "Voir le site",
+            href: "https://www.zafirasolidaire.org",
+          },
+          {
+            label: "Lire la démarche",
+            href: "https://zafira-project.vercel.app",
+          },
+        ],
       },
     ],
   },
+
   {
     id: "relation",
-    title: "Travailler ensemble",
+    title: "Collaboration",
     body: [
-      "J’aime les missions claires, les feedbacks réguliers, et une qualité défendable.",
-      "Ouvert : CDI, freelance, apprentissage — tant que le sujet est réel et utile.",
+      "J’apprécie les cadres clairs, les échanges réguliers et une qualité défendable.",
+      "Ouvert à différents formats de collaboration, tant que le cadre est défini.",
     ],
   },
+
   {
     id: "contact",
     title: "Contact",
     body: ["Je réponds simplement."],
     cta: [
       { label: "Email", href: "mailto:jeffrey-31@hotmail.fr" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/jeffrey-basset/" },
-      { label: "GitHub", href: "https://github.com/JeffToken31" },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/jeffrey-basset/",
+      },
     ],
   },
 ];
+
 
 export const STATE_IDS = STATES.map((state) => state.id);
 
