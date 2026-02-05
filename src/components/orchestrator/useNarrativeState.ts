@@ -29,7 +29,7 @@ export function useNarrativeState() {
   const normalized = clamp(local, 0, 1);
 
   const target = UNIFORM_TARGETS[currentIndex] ?? 0;
-  const isArrived = Math.abs(cameraProgress - target) < 0.0012;
+  const isArrived = Math.abs(cameraProgress - target) < 0.001;
 
   return {
     cinematicProgress,

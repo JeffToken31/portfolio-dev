@@ -40,7 +40,6 @@ export function useScrollProgress() {
           lockRef.current = false;
           setIsTransitioning(false);
           setProgress(to);
-          wheelArmedRef.current = false;
         }
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
