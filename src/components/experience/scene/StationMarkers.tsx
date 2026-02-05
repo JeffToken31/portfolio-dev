@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { STATE_IDS, UNIFORM_TARGETS } from "@/content/narrative";
 import {
   CAMERA_END_Z,
@@ -6,8 +7,15 @@ import {
   tunnelOffsetForZ,
 } from "@/components/experience/scene/tunnelPath";
 import { TUNNEL_PALETTE } from "@/components/experience/scene/palette";
-import { useCameraProgress } from "@/components/orchestrator/cameraProgressStore";
 import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
+import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
+import type { Group, Texture } from "three";
+import {
+  Color,
+  MeshStandardMaterial,
+  SRGBColorSpace,
+  TextureLoader,
+} from "three";
 
 type Station = {
   z: number;
@@ -17,8 +25,33 @@ type Station = {
 };
 
 export function StationMarkers() {
-  const cameraProgress = useCameraProgress();
   const { activeStateId } = useNarrativeState();
+  const reducedMotion = useReducedMotion();
+  const iconRef = useRef<Group | null>(null);
+  const iconTextures = useLoader(TextureLoader, [
+    "/icons/entry.svg",
+    "/icons/hero.svg",
+    "/icons/identity.svg?v=2",
+    "/icons/method.svg",
+    "/icons/projects.svg",
+    "/icons/relation.svg?v=2",
+    "/icons/contact.svg",
+  ]);
+  iconTextures.forEach((texture) => {
+    texture.colorSpace = SRGBColorSpace;
+  });
+  const iconById = useMemo(
+    () => ({
+      entry: iconTextures[0],
+      hero: iconTextures[1],
+      identity: iconTextures[2],
+      method: iconTextures[3],
+      projects: iconTextures[4],
+      relation: iconTextures[5],
+      contact: iconTextures[6],
+    }),
+    [iconTextures]
+  );
   const stations = useMemo<Station[]>(() => {
     const span = CAMERA_START_Z - CAMERA_END_Z;
     return UNIFORM_TARGETS.map((target, index) => {
@@ -28,10 +61,13 @@ export function StationMarkers() {
       return { z, x, y, id };
     });
   }, []);
-  const cameraZ =
-    CAMERA_START_Z -
-    cameraProgress * (CAMERA_START_Z - CAMERA_END_Z);
-
+  useFrame((state, delta) => {
+    if (reducedMotion) return;
+    if (!iconRef.current) return;
+    iconRef.current.rotation.y += delta * 0.25;
+    iconRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.6) * 0.12;
+    iconRef.current.rotation.z = Math.cos(state.clock.elapsedTime * 0.5) * 0.08;
+  });
   return (
     <group>
       {stations.map((station, index) => (
@@ -41,119 +77,68 @@ export function StationMarkers() {
           renderOrder={index}
         >
           <mesh position={[0, 0, -0.4]} scale={1.0}>
-            <planeGeometry args={[1.1, 0.5]} />
+            <boxGeometry args={[1.1, 0.5, 0.05]} />
             <meshStandardMaterial
               color={TUNNEL_PALETTE.stationPlate}
-              roughness={0.85}
-              metalness={0.05}
+              roughness={0.6}
+              metalness={0.4}
               depthTest={false}
               depthWrite={false}
             />
           </mesh>
           {station.id === activeStateId ? (
-            <group position={[0.1, 0, -0.34]} scale={0.35}>
-              <StationIcon id={station.id} opacity={1} />
+            <group ref={iconRef} position={[0.1, 0, -0.34]} scale={0.6}>
+              <StationIcon texture={iconById[station.id]} />
             </group>
           ) : null}
-          {/* station ring removed */}
         </group>
       ))}
     </group>
   );
 }
 
-function StationIcon({
-  id,
-  opacity,
-}: {
-  id: (typeof STATE_IDS)[number];
-  opacity: number;
-}) {
-  const materialProps = {
-    color: TUNNEL_PALETTE.iconAccent ?? TUNNEL_PALETTE.ring,
-    emissive: TUNNEL_PALETTE.iconEmissive ?? TUNNEL_PALETTE.ring,
-    emissiveIntensity: 2.0,
-    roughness: 0.32,
-    metalness: 0.8,
+function StationIcon({ texture }: { texture: Texture }) {
+  const iconMaterial = new MeshStandardMaterial({
+    map: texture,
     transparent: true,
-    opacity,
+    opacity: 1,
+    emissive: new Color(TUNNEL_PALETTE.ring),
+    emissiveIntensity: 0.45,
+    roughness: 0.28,
+    metalness: 0.7,
     depthTest: false,
     depthWrite: false,
-  } as const;
+    side: 2,
+  });
+  const sideMaterial = new MeshStandardMaterial({
+    color: TUNNEL_PALETTE.ringAlt,
+    roughness: 0.35,
+    metalness: 0.6,
+    depthTest: false,
+    depthWrite: false,
+  });
 
-  switch (id) {
-    case "entry":
-      return (
-        <group>
-          <mesh>
-            <ringGeometry args={[0.08, 0.12, 32]} />
-            <meshStandardMaterial {...materialProps} side={2} />
-          </mesh>
-          <mesh>
-            <sphereGeometry args={[0.03, 16, 16]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-        </group>
-      );
-    case "hero":
-      return (
-        <mesh>
-          <coneGeometry args={[0.09, 0.22, 20]} />
-          <meshStandardMaterial {...materialProps} />
-        </mesh>
-      );
-    case "identity":
-      return (
-        <mesh>
-          <capsuleGeometry args={[0.07, 0.18, 6, 12]} />
-          <meshStandardMaterial {...materialProps} />
-        </mesh>
-      );
-    case "method":
-      return (
-        <group>
-          <mesh position={[0, 0.05, 0]}>
-            <boxGeometry args={[0.2, 0.05, 0.06]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-          <mesh position={[0, -0.02, 0]}>
-            <boxGeometry args={[0.2, 0.05, 0.06]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-          <mesh position={[0, -0.09, 0]}>
-            <boxGeometry args={[0.2, 0.05, 0.06]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-        </group>
-      );
-    case "projects":
-      return (
-        <mesh>
-          <boxGeometry args={[0.16, 0.16, 0.12]} />
-          <meshStandardMaterial {...materialProps} />
-        </mesh>
-      );
-    case "relation":
-      return (
-        <group>
-          <mesh position={[-0.03, 0, 0]}>
-            <torusGeometry args={[0.085, 0.025, 12, 24]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-          <mesh position={[0.03, 0, 0]}>
-            <torusGeometry args={[0.085, 0.025, 12, 24]} />
-            <meshStandardMaterial {...materialProps} />
-          </mesh>
-        </group>
-      );
-    case "contact":
-      return (
-        <mesh>
-          <torusGeometry args={[0.095, 0.018, 12, 24, Math.PI]} />
-          <meshStandardMaterial {...materialProps} />
-        </mesh>
-      );
-    default:
-      return null;
-  }
+  return (
+    <group>
+      <pointLight
+        color={TUNNEL_PALETTE.ring}
+        intensity={0.65}
+        distance={1.2}
+      />
+      <mesh>
+        <boxGeometry args={[0.34, 0.34, 0.12]} />
+        <primitive
+          object={[
+            sideMaterial, // right
+            sideMaterial, // left
+            sideMaterial, // top
+            sideMaterial, // bottom
+            iconMaterial, // front
+            iconMaterial, // back
+          ]}
+          attach="material"
+        />
+      </mesh>
+    </group>
+  );
 }
