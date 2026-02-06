@@ -10,6 +10,8 @@ const variants = {
     "border border-white/10 text-neutral-100 hover:!text-[#003e6d] hover:border-[#003e6d]",
   "ghost-zafira":
     "border border-white/10 text-neutral-100 hover:!text-[#e9348c] hover:border-[#e9348c]",
+  "ghost-linkedin":
+    "border border-white/10 text-neutral-100 hover:!text-[#0e76a8] hover:border-[#0e76a8]",
 };
 
 type ButtonProps = {

@@ -24,15 +24,23 @@ export function StateContact({
         </h2>
         <div className="flex flex-wrap items-center gap-4">
           {primary ? <Button href={primary.href}>{primary.label}</Button> : null}
-          {secondary.map((action) => (
-            <a
-              key={action.label}
-              className="text-sm font-semibold text-cyan-300"
-              href={action.href}
-            >
-              {action.label}
-            </a>
-          ))}
+          {secondary.map((action) => {
+            const isLinkedIn = action.label
+              .toLowerCase()
+              .includes("linkedin");
+            const variant = isLinkedIn ? "ghost-linkedin" : "ghost";
+            return (
+              <Button
+                key={action.label}
+                href={action.href}
+                variant={variant}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {action.label}
+              </Button>
+            );
+          })}
         </div>
         {state.body?.length ? (
           <p className="text-sm text-neutral-300">{state.body[0]}</p>

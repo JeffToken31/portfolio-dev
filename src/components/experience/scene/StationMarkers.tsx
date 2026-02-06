@@ -87,7 +87,7 @@ export function StationMarkers() {
             />
           </mesh>
           {station.id === activeStateId ? (
-            <group ref={iconRef} position={[0.07, 0.12, -0.55]} scale={0.3}>
+            <group ref={iconRef} position={[0.07, 0.13, -0.55]} scale={0.3}>
               <StationIcon texture={iconById[station.id]} />
             </group>
           ) : null}
