@@ -38,7 +38,12 @@ export function StateProjects({
           </h2>
         </div>
         <div className="mt-9 space-y-5 md:mt-8 md:space-y-0">
-          <div className="relative md:hidden">
+          <div
+            className="relative md:hidden"
+            role="group"
+            aria-label="Carrousel des projets"
+            aria-live="polite"
+          >
             <div className="overflow-hidden">
               <div
                 className="flex transition-transform duration-300 ease-out"
@@ -64,7 +69,7 @@ export function StateProjects({
               >
                 ←
               </button>
-              <span>
+              <span aria-live="polite">
                 {total > 0 ? activeIndex + 1 : 0} / {total}
               </span>
               <button
