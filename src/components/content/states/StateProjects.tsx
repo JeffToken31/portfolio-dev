@@ -57,7 +57,7 @@ export function StateProjects({
             <div className="flex items-center justify-between text-sm text-neutral-400">
               <button
                 type="button"
-                className="rounded-full border border-white/10 px-3 py-2 text-neutral-100 disabled:opacity-40"
+                className="rounded-full border border-white/10 px-3 py-2 text-neutral-100 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/40"
                 onClick={goPrev}
                 disabled={!canPrev}
                 aria-label="Projet précédent"
@@ -69,7 +69,7 @@ export function StateProjects({
               </span>
               <button
                 type="button"
-                className="rounded-full border border-white/10 px-3 py-2 text-neutral-100 disabled:opacity-40"
+                className="rounded-full border border-white/10 px-3 py-2 text-neutral-100 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/40"
                 onClick={goNext}
                 disabled={!canNext}
                 aria-label="Projet suivant"

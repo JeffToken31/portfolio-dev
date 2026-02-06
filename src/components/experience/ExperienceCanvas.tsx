@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ExperienceScene } from "@/components/experience/scene/ExperienceScene";
 import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
@@ -9,13 +9,12 @@ import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
 export function ExperienceCanvas() {
   const reducedMotion = useReducedMotion();
   const { cinematicProgress } = useNarrativeState();
-  const [canRender, setCanRender] = useState(true);
-
-  useEffect(() => {
+  const canRender = useMemo(() => {
+    if (typeof window === "undefined") return true;
     const canvas = document.createElement("canvas");
     const gl =
       canvas.getContext("webgl") || canvas.getContext("webgl2");
-    setCanRender(Boolean(gl));
+    return Boolean(gl);
   }, []);
 
   if (!canRender || reducedMotion) {

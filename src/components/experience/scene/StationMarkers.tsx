@@ -98,25 +98,44 @@ export function StationMarkers() {
 }
 
 function StationIcon({ texture }: { texture: Texture }) {
-  const iconMaterial = new MeshStandardMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 1,
-    emissive: new Color(TUNNEL_PALETTE.ring),
-    emissiveIntensity: 1.2,
-    roughness: 0.28,
-    metalness: 0.7,
-    depthTest: false,
-    depthWrite: false,
-    side: 2,
-  });
-  const sideMaterial = new MeshStandardMaterial({
-    color: TUNNEL_PALETTE.ringAlt,
-    roughness: 0.35,
-    metalness: 0.6,
-    depthTest: false,
-    depthWrite: false,
-  });
+  const iconMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 1,
+        emissive: new Color(TUNNEL_PALETTE.ring),
+        emissiveIntensity: 1.2,
+        roughness: 0.28,
+        metalness: 0.7,
+        depthTest: false,
+        depthWrite: false,
+        side: 2,
+      }),
+    [texture]
+  );
+  const sideMaterial = useMemo(
+    () =>
+      new MeshStandardMaterial({
+        color: TUNNEL_PALETTE.ringAlt,
+        roughness: 0.35,
+        metalness: 0.6,
+        depthTest: false,
+        depthWrite: false,
+      }),
+    []
+  );
+  const materials = useMemo(
+    () => [
+      sideMaterial, // right
+      sideMaterial, // left
+      sideMaterial, // top
+      sideMaterial, // bottom
+      iconMaterial, // front
+      iconMaterial, // back
+    ],
+    [iconMaterial, sideMaterial]
+  );
 
   return (
     <group>
@@ -127,17 +146,7 @@ function StationIcon({ texture }: { texture: Texture }) {
       />
       <mesh>
         <boxGeometry args={[0.34, 0.34, 0.06]} />
-        <primitive
-          object={[
-            sideMaterial, // right
-            sideMaterial, // left
-            sideMaterial, // top
-            sideMaterial, // bottom
-            iconMaterial, // front
-            iconMaterial, // back
-          ]}
-          attach="material"
-        />
+        <primitive object={materials} attach="material" />
       </mesh>
     </group>
   );

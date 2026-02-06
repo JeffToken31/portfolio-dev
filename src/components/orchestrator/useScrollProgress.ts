@@ -87,6 +87,16 @@ export function useScrollProgress() {
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(
+            target.tagName
+          ))
+      ) {
+        return;
+      }
       if (lockRef.current) {
         event.preventDefault();
         return;
