@@ -89,7 +89,7 @@ export const STATES: NarrativeState[] = [
     title: "Projets",
     projects: [
       {
-        name: "ATS / Recrutement",
+        name: "ATS / Recrutement — Ville de Montauban",
         context:
           "Gestion d’offres et de candidatures avec espaces candidat, RH et administration.",
         work:

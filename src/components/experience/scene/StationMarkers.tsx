@@ -87,7 +87,7 @@ export function StationMarkers() {
             />
           </mesh>
           {station.id === activeStateId ? (
-            <group ref={iconRef} position={[0.1, 0, -0.34]} scale={0.6}>
+            <group ref={iconRef} position={[0.07, 0.12, -0.55]} scale={0.3}>
               <StationIcon texture={iconById[station.id]} />
             </group>
           ) : null}
@@ -103,7 +103,7 @@ function StationIcon({ texture }: { texture: Texture }) {
     transparent: true,
     opacity: 1,
     emissive: new Color(TUNNEL_PALETTE.ring),
-    emissiveIntensity: 0.45,
+    emissiveIntensity: 1.2,
     roughness: 0.28,
     metalness: 0.7,
     depthTest: false,
@@ -122,11 +122,11 @@ function StationIcon({ texture }: { texture: Texture }) {
     <group>
       <pointLight
         color={TUNNEL_PALETTE.ring}
-        intensity={0.65}
-        distance={1.2}
+        intensity={2}
+        distance={1.8}
       />
       <mesh>
-        <boxGeometry args={[0.34, 0.34, 0.12]} />
+        <boxGeometry args={[0.34, 0.34, 0.06]} />
         <primitive
           object={[
             sideMaterial, // right
