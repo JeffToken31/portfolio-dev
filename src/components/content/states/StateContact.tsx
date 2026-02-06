@@ -23,7 +23,11 @@ export function StateContact({
           {state.title}
         </h2>
         <div className="flex flex-wrap items-center gap-4">
-          {primary ? <Button href={primary.href}>{primary.label}</Button> : null}
+          {primary ? (
+            <Button href={primary.href} variant="ghost-email">
+              {primary.label}
+            </Button>
+          ) : null}
           {secondary.map((action) => {
             const isLinkedIn = action.label
               .toLowerCase()

@@ -6,6 +6,8 @@ const baseClasses =
 const variants = {
   solid: "bg-cyan-300 text-zinc-950 hover:bg-cyan-200",
   ghost: "border border-white/10 text-neutral-100 hover:border-cyan-300/40",
+  "ghost-email":
+    "border border-white/10 text-neutral-100 hover:!text-cyan-300 hover:border-cyan-300/70",
   "ghost-ats":
     "border border-white/10 text-neutral-100 hover:!text-[#003e6d] hover:border-[#003e6d]",
   "ghost-zafira":
