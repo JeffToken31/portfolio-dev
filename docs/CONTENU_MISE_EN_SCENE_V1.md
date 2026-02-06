@@ -191,29 +191,11 @@ sans perdre la vision d’ensemble.
 
 ---
 
-### 3. Privilégier la lisibilité à l’illusion de maîtrise
-Je cherche des solutions lisibles, compréhensibles et explicables,
-même si elles sont moins “impressionnantes”.
-
-Un code clair vieillit mieux qu’un code spectaculaire.
-
----
-
-### 4. Tester les idées avant de les embellir
+### 3. Tester les idées avant d’embellir
 Je valide d’abord le sens, la logique et l’utilité
 avant d’ajouter de la complexité visuelle ou technique.
 
 L’esthétique et l’optimisation viennent après la stabilité.
-
----
-
-### 5. Intégrer performance et accessibilité dès que le cadre est posé
-Sur mes projets récents, j’intègre volontairement la performance
-et l’accessibilité comme des contraintes de conception,
-pas comme des corrections de fin de projet.
-
-Je considère ces sujets comme des critères de qualité,
-pas comme des options.
 
 ---
 
@@ -255,8 +237,7 @@ Ancrer : tu as déjà livré, en prod. Montrer le **contexte** avant la vitrine.
 
 ### Mise en scène (layout)
 - Desktop : grille 2 colonnes (cartes sobres)
-- Mobile : 1 carte par rang, très lisible
-- Pas de carrousel en V1 (risque “cheap”)
+- Mobile : **carrousel 1 carte** (navigation par flèches)
 
 ### Canvas (option)
 - Contraste un peu plus “concret” (lumière + fog léger)
@@ -305,7 +286,7 @@ Action simple, sans friction, sans pression.
 
 ### Mise en scène (layout)
 - Minimal
-- Un bouton primaire, un lien secondaire
+- Deux boutons “ghost” (Email + LinkedIn)
 - Focus visible (thème sombre)
 
 ### Canvas (option)
