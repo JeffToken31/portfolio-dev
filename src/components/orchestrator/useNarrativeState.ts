@@ -9,12 +9,14 @@ import {
 import { useScrollProgress } from "@/components/orchestrator/useScrollProgress";
 import { clamp } from "@/lib/utils/clamp";
 import { useCameraProgress } from "@/components/orchestrator/cameraProgressStore";
+import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
 
 const fallbackStateId: NarrativeState["id"] = "hero";
 
 export function useNarrativeState() {
   const { progress, isTransitioning, currentIndex } = useScrollProgress();
   const cameraProgress = useCameraProgress();
+  const reducedMotion = useReducedMotion();
   const cinematicProgress = progress;
 
   const activeStateId = STATE_IDS[currentIndex] ?? fallbackStateId;
@@ -29,7 +31,9 @@ export function useNarrativeState() {
   const normalized = clamp(local, 0, 1);
 
   const target = UNIFORM_TARGETS[currentIndex] ?? 0;
-  const isArrived = Math.abs(cameraProgress - target) < 0.001;
+  const isArrived = reducedMotion
+    ? true
+    : Math.abs(cameraProgress - target) < 0.001;
 
   return {
     cinematicProgress,
