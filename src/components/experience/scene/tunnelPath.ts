@@ -8,7 +8,7 @@ export const TUNNEL_LENGTH = (RING_COUNT - 1) * RING_SPACING;
 export const CAMERA_START_Z = 6;
 export const CAMERA_END_Z = -TUNNEL_LENGTH - 12;
 
-export function tunnelOffsetAt(_index: number) {
+export function tunnelOffsetAt() {
   return { x: 0, y: 0 };
 }
 

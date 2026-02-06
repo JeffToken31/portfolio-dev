@@ -29,9 +29,11 @@ export function CameraRig({ progress, reducedMotion }: CameraRigProps) {
       from + (to - from) * alpha;
     const alpha = reducedMotion ? 1 : direction < 0 ? 0.14 : 0.025;
 
+    /* eslint-disable react-hooks/immutability */
     camera.position.z = lerp(camera.position.z, targetZ, alpha);
     camera.position.x = lerp(camera.position.x, offset.x, alpha);
     camera.position.y = lerp(camera.position.y, offset.y, alpha);
+    /* eslint-enable react-hooks/immutability */
     camera.lookAt(offset.x, offset.y, camera.position.z - 6);
 
     const visual =
