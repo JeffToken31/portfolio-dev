@@ -47,7 +47,7 @@ export function StateProjects({
                 {projects.map((project) => (
                   <article
                     key={project.name}
-                    className="flex h-full w-full flex-none flex-col rounded-2xl bg-white/5 p-1 ring-1 ring-white/10 md:p-6"
+                    className="flex h-[420px] w-full flex-none flex-col rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 md:h-full md:p-6"
                   >
                     <ProjectCard project={project} />
                   </article>
@@ -104,35 +104,39 @@ function ProjectCard({
   const buttonVariant = isZafira ? "ghost-zafira" : "ghost-ats";
 
   return (
-    <div className="flex h-full flex-col space-y-5">
+    <div className="flex h-full flex-col">
       <div className="space-y-2">
         <h3 className="text-xl font-semibold" style={{ color: accent }}>
           {project.name}
         </h3>
-        <p className="text-sm uppercase tracking-wide text-neutral-400">
-          Contexte
-        </p>
-        <p className="text-base leading-relaxed text-neutral-300">
-          {project.context}
-        </p>
       </div>
-      <div className="space-y-2">
-        <p className="text-sm uppercase tracking-wide text-neutral-400">
-          Ce que j’ai fait
-        </p>
-        <p className="text-base leading-relaxed text-neutral-300">
-          {project.work}
-        </p>
+      <div className="flex flex-1 flex-col justify-center space-y-5">
+        <div className="space-y-2">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">
+            Contexte
+          </p>
+          <p className="text-base leading-relaxed text-neutral-300">
+            {project.context}
+          </p>
+        </div>
+        <div className="space-y-2">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">
+            Ce que j’ai fait
+          </p>
+          <p className="text-base leading-relaxed text-neutral-300">
+            {project.work}
+          </p>
+        </div>
+        <div className="space-y-2">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">
+            Point méthode
+          </p>
+          <p className="text-base leading-relaxed text-neutral-300">
+            {project.method}
+          </p>
+        </div>
       </div>
-      <div className="space-y-2">
-        <p className="text-sm uppercase tracking-wide text-neutral-400">
-          Point méthode
-        </p>
-        <p className="text-base leading-relaxed text-neutral-300">
-          {project.method}
-        </p>
-      </div>
-      <div className="mt-auto flex flex-wrap gap-3 pt-4">
+      <div className="pt-4">
         {project.cta.map((action) => (
           <Button
             key={action.label}
