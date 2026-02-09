@@ -57,7 +57,7 @@ export const profile = {
 export const STATES: NarrativeState[] = [
   {
     id: "entry",
-    body: ["Scroller pour entrer", "Une expérience guidée."],
+    body: ["Scroller pour entrer"],
   },
 
   {
