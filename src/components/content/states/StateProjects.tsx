@@ -31,13 +31,13 @@ export function StateProjects({
 
   return (
     <NarrativeCardFrame isVisible={isVisible} progress={progress}>
-      <div className="mt-[10vh] md:mt-0">
+      <div className="mt-[12vh] md:mt-0">
         <div className="max-w-3xl space-y-3 md:space-y-6">
-          <h2 className="mt-2 text-xl font-semibold leading-tight tracking-tight md:text-5xl">
+          <h2 className="mt-4 text-xl font-semibold leading-tight tracking-tight md:text-5xl">
             {state.title}
           </h2>
         </div>
-        <div className="mt-9 space-y-5 md:mt-8 md:space-y-0">
+        <div className="mt-6 space-y-5 md:mt-8 md:space-y-0">
           <div
             className="relative md:hidden"
             role="group"
@@ -52,14 +52,14 @@ export function StateProjects({
                 {projects.map((project) => (
                   <article
                     key={project.name}
-                    className="flex h-[420px] w-full flex-none flex-col rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 md:h-full md:p-6"
+                    className="flex h-[460px] w-full flex-none flex-col rounded-2xl bg-white/5 p-3 ring-1 ring-white/10 md:h-full md:p-6"
                   >
                     <ProjectCard project={project} />
                   </article>
                 ))}
               </div>
             </div>
-            <div className="flex items-center justify-between text-sm text-neutral-400">
+            <div className="mt-4 flex items-center justify-between text-sm text-neutral-400">
               <button
                 type="button"
                 className="rounded-full border border-white/10 px-3 py-2 text-neutral-100 disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/40"
@@ -116,7 +116,7 @@ function ProjectCard({
         </h3>
       </div>
       <div className="flex flex-1 flex-col justify-center space-y-5">
-        <div className="space-y-2">
+        <div className="space-y-2 mt-6">
           <p className="text-sm uppercase tracking-wide text-neutral-400">
             Contexte
           </p>
