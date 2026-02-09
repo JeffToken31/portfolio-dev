@@ -29,6 +29,26 @@ export type NarrativeState = {
   cta?: { label: string; href: string }[];
 };
 
+export const profile = {
+  fullName: "Jeffrey Basset",
+  role: "Développeur Full-Stack JavaScript",
+  keywords: [
+    "Next.js",
+    "React",
+    "Node.js",
+    "Nest.js",
+    "TypeScript",
+    "Architecture",
+    "Performance",
+    "Accessibilité",
+  ],
+  location: "France",
+  sameAs: [
+    "https://www.linkedin.com/in/jeffrey-basset/",
+    "https://github.com/JeffToken31",
+  ],
+};
+
 
 export const STATES: NarrativeState[] = [
   {

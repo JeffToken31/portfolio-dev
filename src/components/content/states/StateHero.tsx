@@ -1,4 +1,5 @@
 import type { NarrativeState } from "@/content/narrative";
+import { profile } from "@/content/narrative";
 import { NarrativeCardFrame } from "@/components/content/NarrativeCardFrame";
 
 type StateHeroProps = {
@@ -18,6 +19,12 @@ export function StateHero({
         <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
           {state.title}
         </h1>
+        <div className="space-y-1 text-xs uppercase tracking-wide text-neutral-400 md:text-sm">
+          <p>
+            {profile.fullName} — {profile.role}
+          </p>
+          <p>{profile.keywords.slice(0, 4).join(" · ")}</p>
+        </div>
         {state.subtitle ? (
           <p className="text-base leading-relaxed text-neutral-300 md:text-lg">
             {state.subtitle}

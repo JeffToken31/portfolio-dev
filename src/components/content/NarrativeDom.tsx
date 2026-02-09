@@ -1,6 +1,6 @@
 "use client";
 
-import { STATES } from "@/content/narrative";
+import { STATES, profile } from "@/content/narrative";
 import { StateContact } from "@/components/content/states/StateContact";
 import { StateEntry } from "@/components/content/states/StateEntry";
 import { StateHero } from "@/components/content/states/StateHero";
@@ -23,6 +23,10 @@ export function NarrativeDom() {
 
   return (
     <div className="relative z-10">
+      <p className="sr-only">
+        {profile.fullName}, développeur full-stack JavaScript spécialisé en
+        Next.js, React et Node.js.
+      </p>
       <StateEntry
         state={entry}
         isVisible={isVisible("entry")}

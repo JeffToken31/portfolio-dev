@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { profile } from "@/content/narrative";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,9 +13,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
-  title: "Portfolio immersif",
-  description: "Parcours narratif en profondeur.",
+  metadataBase: new URL(siteUrl),
+  title: `${profile.fullName} — ${profile.role}`,
+  description:
+    "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    title: `${profile.fullName} — ${profile.role}`,
+    description:
+      "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+  },
+  twitter: {
+    card: "summary",
+    title: `${profile.fullName} — ${profile.role}`,
+    description:
+      "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +49,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-zinc-950 text-neutral-100 antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: profile.fullName,
+              jobTitle: profile.role,
+              url: siteUrl,
+              sameAs: profile.sameAs,
+              knowsAbout: profile.keywords,
+            }),
+          }}
+        />
         <main className="min-h-screen">{children}</main>
       </body>
     </html>
