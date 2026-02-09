@@ -13,6 +13,8 @@ export function useScrollProgress() {
   const lockRef = useRef(false);
   const wheelArmedRef = useRef(true);
   const lastWheelAtRef = useRef(0);
+  const touchStartYRef = useRef<number | null>(null);
+  const touchArmedRef = useRef(true);
   const transitionRef = useRef({
     from: 0,
     to: 0,
@@ -44,6 +46,9 @@ export function useScrollProgress() {
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
           wheelArmedRef.current = true;
+        }
+        if (!touchArmedRef.current && now - lastWheelAtRef.current > 350) {
+          touchArmedRef.current = true;
         }
         setProgress(targetRef.current);
       }
@@ -86,6 +91,48 @@ export function useScrollProgress() {
       triggerMove(dir);
     };
 
+    const isInteractiveTarget = (target: EventTarget | null) => {
+      const el = target as HTMLElement | null;
+      if (!el) return false;
+      return (
+        el.isContentEditable ||
+        ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(el.tagName)
+      );
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (isInteractiveTarget(event.target)) return;
+      if (event.touches.length !== 1) return;
+      touchStartYRef.current = event.touches[0].clientY;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (isInteractiveTarget(event.target)) return;
+      if (lockRef.current) {
+        event.preventDefault();
+        return;
+      }
+      if (!touchArmedRef.current) {
+        event.preventDefault();
+        return;
+      }
+      const startY = touchStartYRef.current;
+      if (startY === null) return;
+      const currentY = event.touches[0]?.clientY ?? startY;
+      const deltaY = startY - currentY;
+      if (Math.abs(deltaY) < 24) return;
+      event.preventDefault();
+      lastWheelAtRef.current = performance.now();
+      const dir = deltaY > 0 ? 1 : -1;
+      touchArmedRef.current = false;
+      touchStartYRef.current = null;
+      triggerMove(dir);
+    };
+
+    const onTouchEnd = () => {
+      touchStartYRef.current = null;
+    };
+
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       if (
@@ -126,11 +173,17 @@ export function useScrollProgress() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
       document.body.style.overflow = "";
     };
   }, [targets]);
