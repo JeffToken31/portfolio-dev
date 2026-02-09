@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ExperienceScene } from "@/components/experience/scene/ExperienceScene";
 import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
@@ -9,6 +9,7 @@ import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
 export function ExperienceCanvas() {
   const reducedMotion = useReducedMotion();
   const { cinematicProgress } = useNarrativeState();
+  const [ready, setReady] = useState(false);
   const isMobile = useMemo(() => {
     if (typeof window === "undefined") return false;
     return window.matchMedia("(max-width: 768px)").matches;
@@ -21,7 +22,25 @@ export function ExperienceCanvas() {
     return Boolean(gl);
   }, []);
 
-  if (!canRender || reducedMotion) {
+  useEffect(() => {
+    if (!canRender || reducedMotion) return;
+    const start = () => setReady(true);
+    const w = window as Window & {
+      requestIdleCallback?: (
+        cb: () => void,
+        opts?: { timeout: number }
+      ) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(start, { timeout: 800 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const timeout = setTimeout(start, 300);
+    return () => clearTimeout(timeout);
+  }, [canRender, reducedMotion]);
+
+  if (!canRender || reducedMotion || !ready) {
     return null;
   }
 
