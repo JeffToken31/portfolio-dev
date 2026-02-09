@@ -1,6 +1,5 @@
 # Portfolio Développeur — Documentation Professionnelle
 
-> Document vivant et évolutif.  
 > Objectif : cadrer, justifier et tracer les décisions (UX, produit, technique) de la conception à la mise en production.
 
 ## Table des matières
@@ -206,7 +205,6 @@
 ## 1. Informations generales
 
 - **Nom du projet :** Portfolio Développeur Full-Stack JS
-- **Auteur :** [Ton nom]
 - **Cible :** recruteurs (poste), clients (freelance), pairs techniques
 - **Objectif global :**
   - Démontrer des compétences full-stack JS (Next.js/React, Node/Nest)
@@ -255,8 +253,6 @@
 
 ### Out-of-scope
 
-- Backend complexe
-- Auth complète
 - Effets 3D démonstratifs
 
 ### Risques & mitigations
