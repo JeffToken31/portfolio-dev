@@ -1,4 +1,5 @@
 import type { NarrativeState } from "@/content/narrative";
+import { profile } from "@/content/narrative";
 import { Button } from "@/components/ui/Button";
 import { NarrativeCardFrame } from "@/components/content/NarrativeCardFrame";
 
@@ -22,6 +23,14 @@ export function StateContact({
         <h2 className="text-3xl font-semibold tracking-tight md:text-5xl">
           {state.title}
         </h2>
+        <div className="space-y-1 text-sm text-neutral-300">
+          <p>
+            {profile.fullName} — {profile.role}
+          </p>
+          <p className="text-xs text-neutral-500">
+            {profile.keywords.slice(0, 4).join(" · ")}
+          </p>
+        </div>
         <div className="flex flex-wrap items-center gap-4">
           {primary ? (
             <Button href={primary.href} variant="ghost-email">
