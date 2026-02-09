@@ -32,6 +32,10 @@ export type NarrativeState = {
 export const profile = {
   fullName: "Jeffrey Basset",
   role: "Développeur Full-Stack JavaScript",
+  avatar: {
+    src: "/JeffreyBasset.jpg",
+    alt: "Photo de Jeffrey Basset",
+  },
   keywords: [
     "Next.js",
     "React",
@@ -80,7 +84,7 @@ export const STATES: NarrativeState[] = [
 
   {
     id: "method",
-    title: "Manière de construire",
+    title: "Manière de concevoir",
     subtitle: "Ce qui est clair tient mieux dans le temps.",
     principles: [
       {
@@ -109,13 +113,13 @@ export const STATES: NarrativeState[] = [
     title: "Projets",
     projects: [
       {
-        name: "ATS / Recrutement — Ville de Montauban",
+        name: "ATS / Recrutement - Ville de Montauban - 2025",
         context:
-          "Gestion d’offres et de candidatures avec espaces candidat, RH et administration.",
+          "Gestion d’offres et de candidatures avec espaces candidat, RH et admin.",
         work:
-          "Architecture API, authentification, gestion des données, documentation, prise en compte du cadre RGPD.",
+          "API REST, authentification, connexion aux outils interne(Keycloack, LDAP, SMTP), RGPD.",
         method:
-          "Découpage en couches, contrats clairs, itérations progressives.",
+          "Découpage en couches, contrats clairs, documentation complète.",
         cta: [
           {
             label: "Voir le projet",
@@ -124,11 +128,11 @@ export const STATES: NarrativeState[] = [
         ],
       },
       {
-        name: "Zafira Solidaire — Site associatif",
+        name: "Zafira vestiaire Solidaire / Association - Toulouse / Paris - 2025",
         context:
           "Site vitrine avec gestion de contenu, articles et partenaires.",
         work:
-          "Intégration, structuration du contenu, performance et accessibilité.",
+          "Intégration, Google Oauth2, performance et accessibilité.",
         method:
           "Priorité à la lisibilité et à la simplicité d’usage.",
         cta: [
@@ -137,7 +141,7 @@ export const STATES: NarrativeState[] = [
             href: "https://www.zafirasolidaire.org",
           },
           {
-            label: "Lire la démarche",
+            label: "Voir le projet",
             href: "https://zafira-project.vercel.app",
           },
         ],
@@ -150,7 +154,7 @@ export const STATES: NarrativeState[] = [
     title: "Collaboration",
     body: [
       "J’apprécie les cadres clairs, les échanges réguliers et une qualité défendable.",
-      "Ouvert à différents formats de collaboration, tant que le cadre est défini.",
+      "Ouvert à différents formats de collaboration.",
     ],
   },
 
