@@ -9,6 +9,10 @@ import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
 export function ExperienceCanvas() {
   const reducedMotion = useReducedMotion();
   const { cinematicProgress } = useNarrativeState();
+  const isMobile = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 768px)").matches;
+  }, []);
   const canRender = useMemo(() => {
     if (typeof window === "undefined") return true;
     const canvas = document.createElement("canvas");
@@ -25,7 +29,7 @@ export function ExperienceCanvas() {
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 6], fov: 45, near: 0.1, far: 60 }}
-        dpr={[1, 1.5]}
+        dpr={isMobile ? [1, 1.15] : [1, 1.5]}
       >
         <ExperienceScene
           progress={cinematicProgress}

@@ -27,6 +27,10 @@ type Station = {
 export function StationMarkers() {
   const { activeStateId } = useNarrativeState();
   const reducedMotion = useReducedMotion();
+  const isMobile = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 768px)").matches;
+  }, []);
   const iconRef = useRef<Group | null>(null);
   const iconTextures = useLoader(TextureLoader, [
     "/icons/entry.svg",
@@ -64,9 +68,14 @@ export function StationMarkers() {
   useFrame((state, delta) => {
     if (reducedMotion) return;
     if (!iconRef.current) return;
-    iconRef.current.rotation.y += delta * 0.25;
-    iconRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.6) * 0.12;
-    iconRef.current.rotation.z = Math.cos(state.clock.elapsedTime * 0.5) * 0.08;
+    const speed = isMobile ? 0.15 : 0.25;
+    iconRef.current.rotation.y += delta * speed;
+    iconRef.current.rotation.x =
+      Math.sin(state.clock.elapsedTime * (isMobile ? 0.45 : 0.6)) *
+      (isMobile ? 0.08 : 0.12);
+    iconRef.current.rotation.z =
+      Math.cos(state.clock.elapsedTime * (isMobile ? 0.4 : 0.5)) *
+      (isMobile ? 0.05 : 0.08);
   });
   return (
     <group>
