@@ -23,12 +23,15 @@ export function useScrollProgress() {
   });
   const indexRef = useRef(0);
   const targets = UNIFORM_TARGETS;
+  const isMobile = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
     const easeInOutCubic = (t: number) =>
       t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    isMobile.current = window.matchMedia("(max-width: 768px)").matches;
 
     const tick = () => {
       const now = performance.now();
@@ -68,7 +71,7 @@ export function useScrollProgress() {
         from: targetRef.current,
         to: nextTarget,
         start: performance.now(),
-        duration: 700,
+        duration: isMobile.current ? 520 : 700,
       };
       targetRef.current = nextTarget;
       lockRef.current = true;
