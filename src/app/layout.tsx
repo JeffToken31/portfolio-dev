@@ -21,19 +21,19 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: `${profile.fullName} — ${profile.role}`,
   description:
-    "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+    "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
   openGraph: {
     type: "website",
     url: siteUrl,
     title: `${profile.fullName} — ${profile.role}`,
     description:
-      "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+      "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
   },
   twitter: {
     card: "summary",
     title: `${profile.fullName} — ${profile.role}`,
     description:
-      "Parcours narratif en tunnel, centré sur la méthode, la clarté et la qualité défendable.",
+      "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
   },
 };
 
