@@ -27,6 +27,10 @@ type Station = {
 export function StationMarkers() {
   const { activeStateId } = useNarrativeState();
   const reducedMotion = useReducedMotion();
+  const isMobile = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 768px)").matches;
+  }, []);
   const iconRef = useRef<Group | null>(null);
   const iconTextures = useLoader(TextureLoader, [
     "/icons/entry.svg",
@@ -70,14 +74,21 @@ export function StationMarkers() {
   });
   return (
     <group>
-      {stations.map((station, index) => (
+      {stations.map((station, index) => {
+        const plateWidth = isMobile ? 0.56 : 1.1;
+        const plateHeight = isMobile ? 1.0 : 0.5;
+        const iconPosition: [number, number, number] = isMobile
+          ? [0.02, 0.26, -0.55]
+          : [0.07, 0.13, -0.55];
+        const iconScale = isMobile ? 0.26 : 0.3;
+        return (
         <group
           key={station.z}
           position={[station.x, station.y, station.z]}
           renderOrder={index}
         >
           <mesh position={[0, 0, -0.4]} scale={1.0}>
-            <boxGeometry args={[1.1, 0.5, 0.05]} />
+            <boxGeometry args={[plateWidth, plateHeight, 0.05]} />
             <meshStandardMaterial
               color={TUNNEL_PALETTE.stationPlate}
               roughness={0.6}
@@ -87,12 +98,13 @@ export function StationMarkers() {
             />
           </mesh>
           {station.id === activeStateId ? (
-            <group ref={iconRef} position={[0.07, 0.13, -0.55]} scale={0.3}>
+            <group ref={iconRef} position={iconPosition} scale={iconScale}>
               <StationIcon texture={iconById[station.id]} />
             </group>
           ) : null}
         </group>
-      ))}
+        );
+      })}
     </group>
   );
 }
