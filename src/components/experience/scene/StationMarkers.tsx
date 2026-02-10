@@ -78,7 +78,7 @@ export function StationMarkers() {
         const plateWidth = isMobile ? 0.56 : 1.1;
         const plateHeight = isMobile ? 1.0 : 0.5;
         const iconPosition: [number, number, number] = isMobile
-          ? [0.02, 0.26, -0.55]
+          ? [0.06, 0.15, -0.55]
           : [0.07, 0.13, -0.55];
         const iconScale = isMobile ? 0.26 : 0.3;
         return (
