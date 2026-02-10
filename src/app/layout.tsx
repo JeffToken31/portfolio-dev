@@ -21,16 +21,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: `${profile.fullName} - ${profile.role}`,
   description:
-    "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
+    "Portfolio full-stack JS (Toulouse–Montauban) : projets livrés, méthode de travail, clarté et accessibilité, focus sur la qualité.",
   openGraph: {
     type: "website",
     url: siteUrl,
     title: `${profile.fullName} - ${profile.role}`,
     description:
-      "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
+      "Portfolio full-stack JS (Toulouse–Montauban) : projets livrés, méthode de travail, clarté et accessibilité, focus sur la qualité.",
+    siteName: "Jeffrey Basset",
     images: [
       {
-        url: "/og.png",
+        url: "/og.jpg",
         width: 1200,
         height: 630,
         alt: "Portfolio de Jeffrey Basset",
@@ -38,11 +39,11 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${profile.fullName} - ${profile.role}`,
     description:
-      "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
-    images: ["/og.png"],
+      "Portfolio full-stack JS (Toulouse–Montauban) : projets livrés, méthode de travail, clarté et accessibilité, focus sur la qualité.",
+    images: ["/og.jpg"],
   },
 };
 
