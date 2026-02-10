@@ -53,73 +53,70 @@ export const profile = {
   ],
 };
 
-
 export const STATES: NarrativeState[] = [
   {
     id: "entry",
-    body: ["Scroller pour entrer"],
+    body: ["Scroll pour entrer"],
   },
 
-  {
-    id: "hero",
-    title:
-      "Je construis des produits comme on construit une solution : avec méthode.",
-    subtitle:
-      "Junior en expérience, exigeant sur la clarté, la performance et l’accessibilité.",
-    body: ["Scroll = progression."],
-  },
+{
+  id: "hero",
+  title: "Je construis des interfaces claires et des APIs fiables.",
+  subtitle:
+    "Junior en expérience, exigeant sur la lisibilité, la performance et l’accessibilité.",
+  body: ["Scroll = progression."],
+},
 
   {
     id: "identity",
     fragments: [
-      "Reconversion vers le développement logiciel.",
-      "Ancien conseil technique en BTP, habitué aux contraintes du terrain.",
-      "Décisions prises face à des clients, des délais et des problèmes réels.",
-      "Je m’efforce de finir ce que je commence.",
-      "J’anticipe pour éviter la complexité inutile.",
-      "Je privilégie les structures claires aux solutions brillantes.",
-      "L’IA est un outil d’apprentissage, pas un substitut de réflexion.",
+      "Reconversion vers le développement logiciel (full-stack JavaScript).",
+      "Expérience terrain : conseil technique BTP, contraintes réelles, délais réels.",
+      "Habitué à expliquer clairement, cadrer un besoin, et livrer une solution défendable.",
+      "Accessibilité, performance, SEO : traités comme des exigences, pas des options.",
+      "IA : j’utilise pour apprendre et accélérer, pas pour remplacer le raisonnement.",
     ],
   },
 
-  {
-    id: "method",
-    title: "Manière de concevoir",
-    subtitle: "Ce qui est clair tient mieux dans le temps.",
-    principles: [
-      {
-        title: "Comprendre avant d’implémenter",
-        body: [
-          "Je prends le temps de comprendre le problème, son contexte et ses contraintes avant d’écrire du code.",
-        ],
-      },
-      {
-        title: "Structurer pour garder le contrôle",
-        body: [
-          "Une base claire permet de faire évoluer une solution, de la tester sereinement et de la maintenir dans le temps.",
-        ],
-      },
-      {
-        title: "Valider avant d’embellir",
-        body: [
-          "Je vérifie d’abord le sens et l’utilité avant d’ajouter de la complexité visuelle ou technique.",
-        ],
-      },
-    ],
-  },
+{
+  id: "method",
+  title: "Manière de construire",
+  subtitle: "Ce qui est clair tient mieux dans le temps.",
+  principles: [
+    {
+      title: "Comprendre avant d’implémenter",
+      body: [
+        "Je clarifie le problème, le contexte et les contraintes avant d’écrire du code.",
+      ],
+    },
+    {
+      title: "Structurer pour garder le contrôle",
+      body: [
+        "Découpage clair pour tester, faire évoluer et maintenir sans surprise.",
+      ],
+    },
+    {
+      title: "Valider avant d’embellir",
+      body: [
+        "Le bon comportement d’abord, les effets ensuite.",
+      ],
+    },
+  ],
+},
+
 
   {
     id: "projects",
     title: "Projets",
     projects: [
       {
-        name: "ATS / Recrutement - Ville de Montauban - 2025",
+        name: "ATS / Recrutement — Mairie de Montauban (2025)",
         context:
-          "Gestion d’offres et de candidatures avec espaces candidat, RH et admin.",
+          "ATS (portail candidats + back-office RH) : offres, candidatures, statuts, documents.",
         work:
-          "API REST, authentification, connexion aux outils interne(Keycloack, LDAP, SMTP), RGPD.",
+          "API REST, auth, intégration services internes (Keycloak, LDAP, SMTP), contraintes RGPD.",
         method:
-          "Découpage en couches, contrats clairs, documentation complète.",
+          "Architecture cadrée, documentation (US / Gherkin / schémas).",
         cta: [
           {
             label: "Voir le projet",
@@ -128,13 +125,13 @@ export const STATES: NarrativeState[] = [
         ],
       },
       {
-        name: "Zafira vestiaire Solidaire / Association - Toulouse / Paris - 2025",
+        name: "Zafira Vestiaire Solidaire — Association (2025)",
         context:
-          "Site vitrine avec gestion de contenu, articles et partenaires.",
+          "Site vitrine + contenu : articles, partenaires, gestion via dashboard.",
         work:
-          "Intégration, Google Oauth2, performance et accessibilité.",
+          "Intégration, authentification Google (OAuth2), focus performance & accessibilité.",
         method:
-          "Priorité à la lisibilité et à la simplicité d’usage.",
+          "Priorité à la lisibilité, parcours simple, mise en production propre.",
         cta: [
           {
             label: "Voir le site",
@@ -153,8 +150,8 @@ export const STATES: NarrativeState[] = [
     id: "relation",
     title: "Collaboration",
     body: [
-      "J’apprécie les cadres clairs, les échanges réguliers et une qualité défendable.",
-      "Ouvert à différents formats de collaboration.",
+      "Je travaille bien avec un cadre clair : objectifs, contraintes, critères de validation.",
+      "Ouvert à tout type de format de collaboration.",
     ],
   },
 
@@ -164,10 +161,7 @@ export const STATES: NarrativeState[] = [
     body: ["Je réponds simplement."],
     cta: [
       { label: "Email", href: "mailto:jeffrey-31@hotmail.fr" },
-      {
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/in/jeffrey-basset/",
-      },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/jeffrey-basset/" },
     ],
   },
 ];
