@@ -30,7 +30,7 @@ export function useScrollProgress() {
 
     const easeInOutCubic = (t: number) =>
       t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
     isMobile.current = window.matchMedia("(max-width: 768px)").matches;
 
@@ -39,7 +39,7 @@ export function useScrollProgress() {
       if (lockRef.current) {
         const { from, to, start, duration } = transitionRef.current;
         const t = clamp((now - start) / duration, 0, 1);
-        const eased = isMobile.current ? easeOutCubic(t) : easeInOutCubic(t);
+        const eased = isMobile.current ? easeOutQuart(t) : easeInOutCubic(t);
         const next = from + (to - from) * eased;
         setProgress(next);
         if (t >= 1) {
