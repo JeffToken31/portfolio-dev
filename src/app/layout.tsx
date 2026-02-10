@@ -19,21 +19,21 @@ const siteUrl = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `${profile.fullName} — ${profile.role}`,
+  title: `${profile.fullName} - ${profile.role}`,
   description:
-    "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
+    "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: `${profile.fullName} — ${profile.role}`,
+    title: `${profile.fullName} - ${profile.role}`,
     description:
-      "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
+      "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
   },
   twitter: {
     card: "summary",
-    title: `${profile.fullName} — ${profile.role}`,
+    title: `${profile.fullName} - ${profile.role}`,
     description:
-      "Plus qu’un CV : une méthode de travail visible et des projets concrets.",
+      "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
   },
 };
 
