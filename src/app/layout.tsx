@@ -28,12 +28,21 @@ export const metadata: Metadata = {
     title: `${profile.fullName} - ${profile.role}`,
     description:
       "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Portfolio de Jeffrey Basset",
+      },
+    ],
   },
   twitter: {
     card: "summary",
     title: `${profile.fullName} - ${profile.role}`,
     description:
       "Portfolio full-stack JS Toulouse & Montauban : projets livrés et méthode de travail.",
+    images: ["/og.png"],
   },
 };
 
