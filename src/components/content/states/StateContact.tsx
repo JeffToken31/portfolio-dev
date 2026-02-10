@@ -25,11 +25,9 @@ export function StateContact({
         </h2>
         <div className="space-y-1 text-sm text-neutral-300">
           <p>
-            {profile.fullName} — {profile.role}
+            {profile.fullName} - {profile.role}
           </p>
-          <p className="text-xs text-neutral-500">
-            {profile.keywords.slice(0, 4).join(" · ")}
-          </p>
+          
         </div>
         <div className="flex flex-wrap items-center gap-4">
           {primary ? (
