@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   title: `${profile.fullName} - ${profile.role}`,
   description:
     "Portfolio full-stack JS (Toulouse–Montauban) : projets livrés, méthode de travail, clarté et accessibilité, focus sur la qualité.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/favicon.ico",
+    apple: "/icon.svg",
+  },
   openGraph: {
     type: "website",
     url: siteUrl,
