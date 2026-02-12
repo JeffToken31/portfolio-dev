@@ -52,7 +52,7 @@ export function Tunnel({ progress }: { progress: number }) {
             roughness={0.22}
             metalness={0.6}
             emissive={ring.index % 4 === 0 ? TUNNEL_PALETTE.ring : TUNNEL_PALETTE.ringAlt}
-            emissiveIntensity={ring.index % 4 === 0 ? 0.45 : 0.25}
+            emissiveIntensity={ring.index % 4 === 0 ? 0.55 : 0.3}
           />
         </mesh>
       ))}

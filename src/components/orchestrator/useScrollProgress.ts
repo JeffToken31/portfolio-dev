@@ -10,6 +10,7 @@ export function useScrollProgress() {
   const [progress, setProgress] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [pendingTargetIndex, setPendingTargetIndex] = useState<number | null>(null);
   const targetRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const lockRef = useRef(false);
@@ -86,6 +87,7 @@ export function useScrollProgress() {
         if (pending !== null && !isInputBlocked()) {
           if (pending === indexRef.current) {
             pendingTargetIndexRef.current = null;
+            setPendingTargetIndex(null);
           } else {
             stepToward(pending);
           }
@@ -139,6 +141,7 @@ export function useScrollProgress() {
       const clamped = clamp(nextIndex, 0, targets.length - 1);
       if (clamped === indexRef.current) return false;
       pendingTargetIndexRef.current = clamped;
+      setPendingTargetIndex(clamped);
       if (isInputBlocked()) return true;
       stepToward(clamped);
       return true;
@@ -170,6 +173,7 @@ export function useScrollProgress() {
       const dir = event.deltaY > 0 ? 1 : -1;
       wheelArmedRef.current = false;
       pendingTargetIndexRef.current = null;
+      setPendingTargetIndex(null);
       triggerMove(dir);
     };
 
@@ -216,6 +220,7 @@ export function useScrollProgress() {
       touchArmedRef.current = false;
       touchStartYRef.current = null;
       pendingTargetIndexRef.current = null;
+      setPendingTargetIndex(null);
       triggerMove(dir);
     };
 
@@ -257,11 +262,13 @@ export function useScrollProgress() {
       const backwardKeys = ["ArrowUp", "PageUp", "ArrowLeft"];
       if (forwardKeys.includes(key)) {
         pendingTargetIndexRef.current = null;
+        setPendingTargetIndex(null);
         triggerMove(1);
         event.preventDefault();
       }
       if (backwardKeys.includes(key)) {
         pendingTargetIndexRef.current = null;
+        setPendingTargetIndex(null);
         triggerMove(-1);
         event.preventDefault();
       }
@@ -276,6 +283,7 @@ export function useScrollProgress() {
     return () => {
       goToStationRef.current = () => false;
       pendingTargetIndexRef.current = null;
+      setPendingTargetIndex(null);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
@@ -290,5 +298,11 @@ export function useScrollProgress() {
     return goToStationRef.current(nextIndex);
   }, []);
 
-  return { progress, isTransitioning, currentIndex, goToStation };
+  return {
+    progress,
+    isTransitioning,
+    currentIndex,
+    pendingTargetIndex,
+    goToStation,
+  };
 }

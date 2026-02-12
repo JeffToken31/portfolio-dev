@@ -14,7 +14,15 @@ import { useNarrativeController } from "@/components/orchestrator/NarrativeConte
 
 export function NarrativeDom() {
   const [entry, hero, identity, method, projects, relation, contact] = STATES;
-  const { activeStateId, stateProgress, isArrived, currentIndex, isTransitioning, goToStation } =
+  const {
+    activeStateId,
+    stateProgress,
+    isArrived,
+    currentIndex,
+    pendingTargetIndex,
+    isTransitioning,
+    goToStation,
+  } =
     useNarrativeController();
 
   const isVisible = (id: string) =>
@@ -28,6 +36,7 @@ export function NarrativeDom() {
       <StationProgressRail
         count={STATES.length}
         currentIndex={currentIndex}
+        pendingTargetIndex={pendingTargetIndex}
         isTransitioning={isTransitioning}
         onSelect={goToStation}
       />

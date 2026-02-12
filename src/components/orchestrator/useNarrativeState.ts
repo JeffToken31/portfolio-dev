@@ -14,7 +14,7 @@ import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
 const fallbackStateId: NarrativeState["id"] = "hero";
 
 export function useNarrativeState() {
-  const { progress, isTransitioning, currentIndex, goToStation } =
+  const { progress, isTransitioning, currentIndex, pendingTargetIndex, goToStation } =
     useScrollProgress();
   const cameraProgress = useCameraProgress();
   const reducedMotion = useReducedMotion();
@@ -42,6 +42,7 @@ export function useNarrativeState() {
     isArrived,
     activeStateId,
     currentIndex,
+    pendingTargetIndex,
     goToStation,
     stateProgress: normalized,
   };

@@ -117,7 +117,7 @@ function StationIcon({ texture }: { texture: Texture }) {
         transparent: true,
         opacity: 1,
         emissive: new Color(TUNNEL_PALETTE.ring),
-        emissiveIntensity: 1.2,
+        emissiveIntensity: 1.3,
         roughness: 0.28,
         metalness: 0.7,
         depthTest: false,
