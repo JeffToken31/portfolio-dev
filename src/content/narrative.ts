@@ -81,7 +81,6 @@ export const STATES: NarrativeState[] = [
 {
   id: "method",
   title: "Manière de construire",
-  subtitle: "Ce qui est clair tient mieux dans le temps.",
   principles: [
     {
       title: "Comprendre avant d’implémenter",
