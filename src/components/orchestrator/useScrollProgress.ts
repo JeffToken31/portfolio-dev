@@ -48,7 +48,7 @@ export function useScrollProgress() {
           setIsTransitioning(false);
           setProgress(to);
           // Mobile-only: prevent inertial wheel/touch events from chaining into another station.
-          interactionBlockedUntilRef.current = isMobile.current ? now + 220 : 0;
+          interactionBlockedUntilRef.current = isMobile.current ? now + 420 : 0;
         }
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
@@ -82,6 +82,10 @@ export function useScrollProgress() {
       setIsTransitioning(true);
     };
 
+    const isInputBlocked = () =>
+      lockRef.current ||
+      (isMobile.current && performance.now() < interactionBlockedUntilRef.current);
+
     const triggerMove = (dir: number) => {
       const nextIndex = clamp(indexRef.current + dir, 0, targets.length - 1);
       goToIndex(nextIndex);
@@ -89,10 +93,8 @@ export function useScrollProgress() {
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
-      const now = performance.now();
-      if (isMobile.current && now < interactionBlockedUntilRef.current) return;
+      if (isInputBlocked()) return;
       lastWheelAtRef.current = performance.now();
-      if (lockRef.current) return;
       if (!wheelArmedRef.current) return;
       if (Math.abs(event.deltaY) < 2) return;
       const dir = event.deltaY > 0 ? 1 : -1;
@@ -111,18 +113,18 @@ export function useScrollProgress() {
 
     const onTouchStart = (event: TouchEvent) => {
       if (isInteractiveTarget(event.target)) return;
+      if (isInputBlocked()) {
+        event.preventDefault();
+        touchStartYRef.current = null;
+        return;
+      }
       if (event.touches.length !== 1) return;
       touchStartYRef.current = event.touches[0].clientY;
     };
 
     const onTouchMove = (event: TouchEvent) => {
       if (isInteractiveTarget(event.target)) return;
-      const now = performance.now();
-      if (isMobile.current && now < interactionBlockedUntilRef.current) {
-        event.preventDefault();
-        return;
-      }
-      if (lockRef.current) {
+      if (isInputBlocked()) {
         event.preventDefault();
         return;
       }
