@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { clamp } from "@/lib/utils/clamp";
 import { UNIFORM_TARGETS } from "@/content/narrative";
+import { useCameraProgress } from "@/components/orchestrator/cameraProgressStore";
 
 export function useScrollProgress() {
+  const cameraProgress = useCameraProgress();
   const [progress, setProgress] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,6 +28,13 @@ export function useScrollProgress() {
   const targets = UNIFORM_TARGETS;
   const isMobile = useRef(false);
   const mobileInertiaLockMs = 520;
+  const cameraProgressRef = useRef(0);
+  const awaitingArrivalRef = useRef(false);
+  const arrivalWaitStartRef = useRef(0);
+
+  useEffect(() => {
+    cameraProgressRef.current = cameraProgress;
+  }, [cameraProgress]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -41,17 +50,31 @@ export function useScrollProgress() {
       if (lockRef.current) {
         const { from, to, start, duration } = transitionRef.current;
         const t = clamp((now - start) / duration, 0, 1);
-        const eased = isMobile.current ? linear(t) : easeInOutCubic(t);
-        const next = from + (to - from) * eased;
-        setProgress(next);
-        if (t >= 1) {
-          lockRef.current = false;
-          setIsTransitioning(false);
+        if (t < 1) {
+          const eased = isMobile.current ? linear(t) : easeInOutCubic(t);
+          const next = from + (to - from) * eased;
+          setProgress(next);
+        } else {
           setProgress(to);
-          // Mobile-only: prevent inertial wheel/touch events from chaining into another station.
-          interactionBlockedUntilRef.current = isMobile.current
-            ? now + mobileInertiaLockMs
-            : 0;
+          if (!isMobile.current) {
+            lockRef.current = false;
+            setIsTransitioning(false);
+            interactionBlockedUntilRef.current = 0;
+          } else {
+            if (!awaitingArrivalRef.current) {
+              awaitingArrivalRef.current = true;
+              arrivalWaitStartRef.current = now;
+            }
+            const cameraDelta = Math.abs(cameraProgressRef.current - to);
+            const cameraArrived = cameraDelta < 0.0025;
+            const timedOut = now - arrivalWaitStartRef.current > 1300;
+            if (cameraArrived || timedOut) {
+              awaitingArrivalRef.current = false;
+              lockRef.current = false;
+              setIsTransitioning(false);
+              interactionBlockedUntilRef.current = now + mobileInertiaLockMs;
+            }
+          }
         }
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
@@ -80,6 +103,8 @@ export function useScrollProgress() {
         start: performance.now(),
         duration: isMobile.current ? 480 : 700,
       };
+      awaitingArrivalRef.current = false;
+      arrivalWaitStartRef.current = 0;
       targetRef.current = nextTarget;
       lockRef.current = true;
       setIsTransitioning(true);
