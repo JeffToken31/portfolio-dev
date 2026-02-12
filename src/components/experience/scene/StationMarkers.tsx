@@ -157,7 +157,7 @@ function StationIcon({ texture }: { texture: Texture }) {
         distance={1.8}
       />
       <mesh>
-        <boxGeometry args={[0.34, 0.34, 0.06]} />
+        <boxGeometry args={[0.27, 0.27, 0.06]} />
         <primitive object={materials} attach="material" />
       </mesh>
     </group>
