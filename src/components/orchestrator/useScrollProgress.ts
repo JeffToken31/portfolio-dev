@@ -25,6 +25,7 @@ export function useScrollProgress() {
   const indexRef = useRef(0);
   const targets = UNIFORM_TARGETS;
   const isMobile = useRef(false);
+  const mobileInertiaLockMs = 520;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -48,7 +49,9 @@ export function useScrollProgress() {
           setIsTransitioning(false);
           setProgress(to);
           // Mobile-only: prevent inertial wheel/touch events from chaining into another station.
-          interactionBlockedUntilRef.current = isMobile.current ? now + 420 : 0;
+          interactionBlockedUntilRef.current = isMobile.current
+            ? now + mobileInertiaLockMs
+            : 0;
         }
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
@@ -86,6 +89,15 @@ export function useScrollProgress() {
       lockRef.current ||
       (isMobile.current && performance.now() < interactionBlockedUntilRef.current);
 
+    const extendMobileLock = () => {
+      if (!isMobile.current) return;
+      const now = performance.now();
+      interactionBlockedUntilRef.current = Math.max(
+        interactionBlockedUntilRef.current,
+        now + mobileInertiaLockMs
+      );
+    };
+
     const triggerMove = (dir: number) => {
       const nextIndex = clamp(indexRef.current + dir, 0, targets.length - 1);
       goToIndex(nextIndex);
@@ -93,7 +105,10 @@ export function useScrollProgress() {
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
-      if (isInputBlocked()) return;
+      if (isInputBlocked()) {
+        extendMobileLock();
+        return;
+      }
       lastWheelAtRef.current = performance.now();
       if (!wheelArmedRef.current) return;
       if (Math.abs(event.deltaY) < 2) return;
@@ -115,6 +130,7 @@ export function useScrollProgress() {
       if (isInteractiveTarget(event.target)) return;
       if (isInputBlocked()) {
         event.preventDefault();
+        extendMobileLock();
         touchStartYRef.current = null;
         return;
       }
@@ -126,6 +142,7 @@ export function useScrollProgress() {
       if (isInteractiveTarget(event.target)) return;
       if (isInputBlocked()) {
         event.preventDefault();
+        extendMobileLock();
         return;
       }
       if (!touchArmedRef.current) {
