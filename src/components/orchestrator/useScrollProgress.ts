@@ -28,6 +28,8 @@ export function useScrollProgress() {
   const targets = UNIFORM_TARGETS;
   const isMobile = useRef(false);
   const mobileInertiaLockMs = 520;
+  const mobileStationDwellMs = 260;
+  const mobileArrivalEpsilon = 0.0012;
   const cameraProgressRef = useRef(0);
   const awaitingArrivalRef = useRef(false);
   const arrivalWaitStartRef = useRef(0);
@@ -66,13 +68,14 @@ export function useScrollProgress() {
               arrivalWaitStartRef.current = now;
             }
             const cameraDelta = Math.abs(cameraProgressRef.current - to);
-            const cameraArrived = cameraDelta < 0.0025;
+            const cameraArrived = cameraDelta < mobileArrivalEpsilon;
             const timedOut = now - arrivalWaitStartRef.current > 1300;
             if (cameraArrived || timedOut) {
               awaitingArrivalRef.current = false;
               lockRef.current = false;
               setIsTransitioning(false);
-              interactionBlockedUntilRef.current = now + mobileInertiaLockMs;
+              interactionBlockedUntilRef.current =
+                now + mobileInertiaLockMs + mobileStationDwellMs;
             }
           }
         }
