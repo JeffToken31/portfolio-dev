@@ -4,11 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ExperienceScene } from "@/components/experience/scene/ExperienceScene";
 import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
-import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
+import { useNarrativeController } from "@/components/orchestrator/NarrativeContext";
 
 export function ExperienceCanvas() {
   const reducedMotion = useReducedMotion();
-  const { cinematicProgress } = useNarrativeState();
+  const { cinematicProgress } = useNarrativeController();
   const [ready, setReady] = useState(false);
   const canRender = useMemo(() => {
     if (typeof window === "undefined") return true;

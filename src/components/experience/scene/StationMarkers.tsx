@@ -7,7 +7,7 @@ import {
   tunnelOffsetForZ,
 } from "@/components/experience/scene/tunnelPath";
 import { TUNNEL_PALETTE } from "@/components/experience/scene/palette";
-import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
+import { useNarrativeController } from "@/components/orchestrator/NarrativeContext";
 import { useReducedMotion } from "@/components/orchestrator/useReducedMotion";
 import type { Group, Texture } from "three";
 import {
@@ -25,7 +25,7 @@ type Station = {
 };
 
 export function StationMarkers() {
-  const { activeStateId } = useNarrativeState();
+  const { activeStateId } = useNarrativeController();
   const reducedMotion = useReducedMotion();
   const isMobile = useMemo(() => {
     if (typeof window === "undefined") return false;

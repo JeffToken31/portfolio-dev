@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { clamp } from "@/lib/utils/clamp";
 import { UNIFORM_TARGETS } from "@/content/narrative";
 import { useCameraProgress } from "@/components/orchestrator/cameraProgressStore";
@@ -33,6 +33,8 @@ export function useScrollProgress() {
   const cameraProgressRef = useRef(0);
   const awaitingArrivalRef = useRef(false);
   const arrivalWaitStartRef = useRef(0);
+  const goToStationRef = useRef<(nextIndex: number) => boolean>(() => false);
+  const pendingTargetIndexRef = useRef<number | null>(null);
 
   useEffect(() => {
     cameraProgressRef.current = cameraProgress;
@@ -80,6 +82,14 @@ export function useScrollProgress() {
           }
         }
       } else {
+        const pending = pendingTargetIndexRef.current;
+        if (pending !== null && !isInputBlocked()) {
+          if (pending === indexRef.current) {
+            pendingTargetIndexRef.current = null;
+          } else {
+            stepToward(pending);
+          }
+        }
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
           wheelArmedRef.current = true;
         }
@@ -113,9 +123,26 @@ export function useScrollProgress() {
       setIsTransitioning(true);
     };
 
+    const stepToward = (targetIndex: number) => {
+      const clampedTarget = clamp(targetIndex, 0, targets.length - 1);
+      if (clampedTarget === indexRef.current) return false;
+      const dir = clampedTarget > indexRef.current ? 1 : -1;
+      goToIndex(clamp(indexRef.current + dir, 0, targets.length - 1));
+      return true;
+    };
+
     const isInputBlocked = () =>
       lockRef.current ||
       (isMobile.current && performance.now() < interactionBlockedUntilRef.current);
+
+    goToStationRef.current = (nextIndex: number) => {
+      const clamped = clamp(nextIndex, 0, targets.length - 1);
+      if (clamped === indexRef.current) return false;
+      pendingTargetIndexRef.current = clamped;
+      if (isInputBlocked()) return true;
+      stepToward(clamped);
+      return true;
+    };
 
     const extendMobileLock = () => {
       if (!isMobile.current) return;
@@ -142,6 +169,7 @@ export function useScrollProgress() {
       if (Math.abs(event.deltaY) < 2) return;
       const dir = event.deltaY > 0 ? 1 : -1;
       wheelArmedRef.current = false;
+      pendingTargetIndexRef.current = null;
       triggerMove(dir);
     };
 
@@ -187,6 +215,7 @@ export function useScrollProgress() {
       const dir = deltaY > 0 ? 1 : -1;
       touchArmedRef.current = false;
       touchStartYRef.current = null;
+      pendingTargetIndexRef.current = null;
       triggerMove(dir);
     };
 
@@ -227,10 +256,12 @@ export function useScrollProgress() {
       const forwardKeys = ["ArrowDown", "PageDown", " ", "ArrowRight"];
       const backwardKeys = ["ArrowUp", "PageUp", "ArrowLeft"];
       if (forwardKeys.includes(key)) {
+        pendingTargetIndexRef.current = null;
         triggerMove(1);
         event.preventDefault();
       }
       if (backwardKeys.includes(key)) {
+        pendingTargetIndexRef.current = null;
         triggerMove(-1);
         event.preventDefault();
       }
@@ -243,6 +274,8 @@ export function useScrollProgress() {
     window.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
+      goToStationRef.current = () => false;
+      pendingTargetIndexRef.current = null;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
@@ -253,5 +286,9 @@ export function useScrollProgress() {
     };
   }, [targets]);
 
-  return { progress, isTransitioning, currentIndex };
+  const goToStation = useCallback((nextIndex: number) => {
+    return goToStationRef.current(nextIndex);
+  }, []);
+
+  return { progress, isTransitioning, currentIndex, goToStation };
 }

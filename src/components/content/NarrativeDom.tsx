@@ -9,11 +9,13 @@ import { StateMethod } from "@/components/content/states/StateMethod";
 import { StateProjects } from "@/components/content/states/StateProjects";
 import { StateRelation } from "@/components/content/states/StateRelation";
 import { StateThreshold } from "@/components/content/states/StateThreshold";
-import { useNarrativeState } from "@/components/orchestrator/useNarrativeState";
+import { StationProgressRail } from "@/components/content/StationProgressRail";
+import { useNarrativeController } from "@/components/orchestrator/NarrativeContext";
 
 export function NarrativeDom() {
   const [entry, hero, identity, method, projects, relation, contact] = STATES;
-  const { activeStateId, stateProgress, isArrived } = useNarrativeState();
+  const { activeStateId, stateProgress, isArrived, currentIndex, isTransitioning, goToStation } =
+    useNarrativeController();
 
   const isVisible = (id: string) =>
     isArrived && activeStateId === id;
@@ -23,6 +25,12 @@ export function NarrativeDom() {
 
   return (
     <div className="relative z-10">
+      <StationProgressRail
+        count={STATES.length}
+        currentIndex={currentIndex}
+        isTransitioning={isTransitioning}
+        onSelect={goToStation}
+      />
       <p className="sr-only">
         {profile.fullName}, développeur full-stack JavaScript spécialisé en
         Next.js, React et Node.js.
