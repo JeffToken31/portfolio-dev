@@ -15,6 +15,7 @@ export function useScrollProgress() {
   const lastWheelAtRef = useRef(0);
   const touchStartYRef = useRef<number | null>(null);
   const touchArmedRef = useRef(true);
+  const interactionBlockedUntilRef = useRef(0);
   const transitionRef = useRef({
     from: 0,
     to: 0,
@@ -46,6 +47,8 @@ export function useScrollProgress() {
           lockRef.current = false;
           setIsTransitioning(false);
           setProgress(to);
+          // Mobile-only: prevent inertial wheel/touch events from chaining into another station.
+          interactionBlockedUntilRef.current = isMobile.current ? now + 220 : 0;
         }
       } else {
         if (!wheelArmedRef.current && now - lastWheelAtRef.current > 350) {
@@ -86,6 +89,8 @@ export function useScrollProgress() {
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
+      const now = performance.now();
+      if (isMobile.current && now < interactionBlockedUntilRef.current) return;
       lastWheelAtRef.current = performance.now();
       if (lockRef.current) return;
       if (!wheelArmedRef.current) return;
@@ -112,6 +117,11 @@ export function useScrollProgress() {
 
     const onTouchMove = (event: TouchEvent) => {
       if (isInteractiveTarget(event.target)) return;
+      const now = performance.now();
+      if (isMobile.current && now < interactionBlockedUntilRef.current) {
+        event.preventDefault();
+        return;
+      }
       if (lockRef.current) {
         event.preventDefault();
         return;
@@ -146,6 +156,10 @@ export function useScrollProgress() {
             target.tagName
           ))
       ) {
+        return;
+      }
+      if (isMobile.current && performance.now() < interactionBlockedUntilRef.current) {
+        event.preventDefault();
         return;
       }
       if (lockRef.current) {
