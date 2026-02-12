@@ -17,7 +17,7 @@ export function CameraRig({ progress, reducedMotion }: CameraRigProps) {
   const { camera } = useThree();
   const prevProgressRef = useRef(progress);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     const t = clamp(progress, 0, 1);
     const prev = prevProgressRef.current;
     const direction = t - prev;
@@ -27,7 +27,11 @@ export function CameraRig({ progress, reducedMotion }: CameraRigProps) {
 
     const lerp = (from: number, to: number, alpha: number) =>
       from + (to - from) * alpha;
-    const alpha = reducedMotion ? 1 : direction < 0 ? 0.14 : 0.025;
+    // Convert per-frame smoothing to time-based smoothing so mobile/desktop feel consistent.
+    const speed = reducedMotion ? 90 : direction < 0 ? 9 : 1.5;
+    const alpha = reducedMotion
+      ? 1
+      : 1 - Math.exp(-speed * Math.min(delta, 0.1));
 
     /* eslint-disable react-hooks/immutability */
     camera.position.z = lerp(camera.position.z, targetZ, alpha);
